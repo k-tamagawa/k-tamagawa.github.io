@@ -52,10 +52,10 @@
         { scope: './' }
       ).then(function (registration) {
         if (navigator.serviceWorker.controller) {
-          printStatus('The service worker is currentlyhandling ' + 'network operations.');
+          printStatus('The service worker is currently handling ' + 'network operations.');
           showRequest();
         } else {
-          printStatus('Please reload this page to allowthe ' + 'service worker to handle network operations.');
+          printStatus('Please reload this page to allow the ' + 'service worker to handle network operations.');
         }
       }).catch(function (error) {
         document.getElementById('status').innerHTML = error;
