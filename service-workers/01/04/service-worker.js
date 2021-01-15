@@ -21,7 +21,7 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', function(event) {
   if (/\.js$/.test(event.request.url)) {
-    event.respondWith(Promise.race([timeout(400), fetch(event.request.url)]));
+    event.respondWith(Promise.race([timeout(400), fetch(event.request.url)]));//パラメータ１と２で早く終わったほうが採用される。なので400ミリ秒まって応答がないと、timeout(400)となる。
   } else {
     event.respondWith(fetch(event.request));
   }
