@@ -1,15 +1,25 @@
-'use strict';
 var cacheName = 'dependencies-cache';
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(cacheName)
       .then(function (cache) {
+        // return cache.addAll([
+        //   'apple',
+        //   'google',
+        //   'adobe',
+        //   'facebook',
+        //   'amazon'
+        // ]);
         return cache.addAll([
-          'apple',
-          'google',
-          'adobe',
-          'facebook',
-          'amazon'
+          'adobe-logo.png',
+          'amazon-logo.png',
+          'apple-logo.png',
+          'facebook-logo.png',
+          'google-logo.png',
+          'game.js',
+          'index.html',
+          'index.js',
+          'style.css',
         ]);
       })
       .then(function () {

@@ -8,18 +8,11 @@ chrome://serviceworker-internals/
 https://github.com/k-tamagawa/k-tamagawa.github.io/tree/master/service-workers  
 
 
-### Access
+### Access Git Hub
 https://k-tamagawa.github.io/service-workers/01/01/index.html  
-https://k-tamagawa.github.io/service-workers/01/02/index.html  
-https://k-tamagawa.github.io/service-workers/01/03/index.html  
-https://k-tamagawa.github.io/service-workers/01/05/index.html  
-https://k-tamagawa.github.io/service-workers/01/04/index.html  
 
-https://k-tamagawa.github.io/service-workers/02/01/index.html  
-https://k-tamagawa.github.io/service-workers/02/02/index.html  
-https://k-tamagawa.github.io/service-workers/02/06/index.html  
-
-https://k-tamagawa.github.io/service-workers/03/01/index.html  
+### Access Local
+https://tr00012613.trancom-domain.local/service-workers/03/01 
 
 
 

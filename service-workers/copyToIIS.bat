@@ -1,0 +1,1 @@
+xcopy .\* C:\inetpub\wwwroot\service-workers /D /S /R /Y /I /K

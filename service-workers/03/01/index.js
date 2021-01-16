@@ -14,6 +14,7 @@ if ('serviceWorker' in navigator) {
 } else {
   printStatus('unavailable');
 }
+
 navigator.serviceWorker.addEventListener('controllerchange',
   function (event) {
     console.log('EVENT: controllerchange', event);
