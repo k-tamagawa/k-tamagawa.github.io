@@ -1,6 +1,0 @@
-# Google Chrome
-
-| キー |内容|
-|--------------|---|
-| Ctrl + R | 最新表示（F5と同じ） |
-| Ctrl + Shift + R | ハード再読み込み（Shift + F5）|
