@@ -19,22 +19,25 @@
         { scope: './' }
       ).then(function (registration) {
         var serviceWorker;
-        document.getElementById('status').innerHTML =
-          'successful';
+        document.getElementById('status').innerHTML ='successful';
         if (registration.installing) {
           serviceWorker = registration.installing;
           printState('installing');
+          console.log('installing');
         } else if (registration.waiting) {
           serviceWorker = registration.waiting;
           printState('waiting');
+          console.log('waiting');
         } else if (registration.active) {
           serviceWorker = registration.active;
           printState('active');
+          console.log('active');
         }
         if (serviceWorker) {
           printState(serviceWorker.state);
           serviceWorker.addEventListener('statechange',
             function (e) {
+              console.log('statechange');
               printState(e.target.state);
             });
         }
