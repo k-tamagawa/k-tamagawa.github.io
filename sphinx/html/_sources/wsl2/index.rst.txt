@@ -1,0 +1,14 @@
+.. ProjectX documentation master file, created by
+   sphinx-quickstart on Thu Jul 22 20:54:18 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Windows Subsystem for Linux 2
+====================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 目次:
+
+   wsl2_inst.md
+   command.md

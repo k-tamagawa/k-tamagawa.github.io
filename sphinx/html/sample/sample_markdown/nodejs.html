@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>2.5.4. Node.js v15.4 &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+        <script src="../../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" />
+    <link rel="next" title="3. 保守用：SQL Server" href="../../mssql/index.html" />
+    <link rel="prev" title="2.5.3. log4js-node" href="log4js.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">2. サンプル集</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../markdown.html">2.1. マークダウン</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sample_html/index.html">2.2. htmlで対応</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reST.html">2.3. reStructuredTextで対応</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plantuml.html">2.4. PlantUML</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">2.5. マークダウン作成資料</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="mattermost.html">2.5.1. Mattermost プレビュー版</a></li>
+<li class="toctree-l3"><a class="reference internal" href="express.html">2.5.2. Express</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log4js.html">2.5.3. log4js-node</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">2.5.4. Node.js v15.4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">8. Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wsl2/index.html">9. Windows Subsystem for Linux 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kintai/index.html">15. 勤怠</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html"><span class="section-number">2. </span>サンプル集</a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">2.5. </span>マークダウン作成資料</a> &raquo;</li>
+        
+      <li><span class="section-number">2.5.4. </span>Node.js v15.4</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/sample/sample_markdown/nodejs.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="node-js-v15-4">
+<h1><span class="section-number">2.5.4. </span><a class="reference external" href="https://nodejs.org/api/https.html">Node.js v15.4</a><a class="headerlink" href="#node-js-v15-4" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div style="background-color: Lightskyblue; padding: 5px"><font color="white"><b>注釈</b></font></div>
+<div style="background-color: LightCyan; padding: 5px">
+画面右上の <a href="../../_sources/sample/sample_markdown/mattermost.md.txt">View page source</a> をクリックするとマークダウンを確認できます。<br>文字化けする場合はChromeだと拡張機能でCharsetを追加してください。
+</div>　
+<hr class="docutils" />
+<ol class="simple">
+<li><p><a class="reference external" href="#node-https">https.createServer</a></p></li>
+<li><p><a class="reference external" href="#node-http2sec">http2.createSecureServer</a></p></li>
+</ol>
+<hr class="docutils" />
+<p><a id="node-https"></a></p>
+<p><strong>https.createServer([options][,requestListener]</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">options</span></code> &lt;Object&gt; tls.createServer(), tls.createSecureContext(), およびhttp.createServer()からの<code class="docutils literal notranslate"><span class="pre">options</span></code>を受け入れます。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requestListener</span></code> &lt;Function&gt; requestイベントに追加されるリスナー</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Returns</span></code>: &lt;https.Server&gt;</p></li>
+</ul>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// curl -k https://localhost:8000/</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">https</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;test/fixtures/keys/agent2-key.pem&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">cert</span><span class="o">:</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;test/fixtures/keys/agent2-cert.pem&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="nx">https</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mf">200</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;hello world\n&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mf">8000</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Or</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">https</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">pfx</span><span class="o">:</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;test/fixtures/test_cert.pfx&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">passphrase</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;sample&#39;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="nx">https</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mf">200</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;hello world\n&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mf">8000</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><a id="node-http2sec"></a></p>
+<p><strong>http2.createSecureServer(options[,onRequestHeader]</strong>)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">options</span></code> &lt;Object&gt;</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">allowHTTP1</span></code> &lt;boolean&gt; HTTP2をサポートしていない着信接続クライアントは、trueに設定する時、ダウングレードされるでしょう。<a class="reference external" href="https://nodejs.org/api/http2.html#http2_event_unknownprotocol">unknownProtocol</a>を参照してください。<a class="reference external" href="https://nodejs.org/api/http2.html#http2_alpn_negotiation">ALPN negotiation</a>を参照してください。デフォルト：false。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxDeflateDynamicTableSize</span></code> &lt;number&gt; ヘッダーフィールドを圧縮するための最大動的テーブルサイズを設定します。デフォルト：4kib。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxSettings</span></code>  &lt;number&gt; SETTINGSフレームごとの設定エントリの最大数を設定します。デフォルト：32。</p></li>
+<li><p>maxSessionMemory &lt;number&gt; HTTP2セッションが利用を許可されている最大メモリを設定します。この値はメガバイト単位で表されます。例: 1は1メガバイトに等しい。許可された最小値は1です。これはクレジットベースの制限です。既存のHttp2Streamはこの制限を超えられる可能性がある。しかし、新しいHttp2Streamインスタンスはこの制限が超えられている間は拒否されます。現在のHttp2Streamセッション数、現在のヘッダーアシュクテーブルの使用量、減算の送信キューデータ、未確認のPingとSETTINGフレームはすべて現在の制限にカウントされます。デフォルト:10。</p></li>
+<li><p>??</p></li>
+<li><p>??</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">onRequestHandler</span></code> &lt;Function&gt; <a class="reference external" href="https://nodejs.org/api/http2.html#http2_compatibility_api">Compatibility API</a> を参照してください。</p></li>
+<li><p>戻り値: &lt;Http2SecureServer&gt;</p></li>
+</ul>
+<p>Http2セッションインスタンスを作成、管理するtlsサーバーインスタンスを返します。</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">http2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http2&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;server-key.pem&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">cert</span><span class="o">:</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;server-cert.pem&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="c1">// Create a secure HTTP/2 server</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http2</span><span class="p">.</span><span class="nx">createSecureServer</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span><span class="w"></span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;stream&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">stream</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">stream</span><span class="p">.</span><span class="nx">respond</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;content-type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;text/html; charset=utf-8&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="s1">&#39;:status&#39;</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+<span class="w">  </span><span class="nx">stream</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;&lt;h1&gt;Hello World&lt;/h1&gt;&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mf">80</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../../mssql/index.html" class="btn btn-neutral float-right" title="3. 保守用：SQL Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="log4js.html" class="btn btn-neutral float-left" title="2.5.3. log4js-node" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

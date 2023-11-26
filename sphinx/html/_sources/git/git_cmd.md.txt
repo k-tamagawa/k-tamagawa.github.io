@@ -1,0 +1,18 @@
+# Git コマンド一覧
+
+```bash
+# ブランチの一覧を見る
+git branch -a
+
+# ブランチの切り替え
+git checkout {tag_name}
+
+# ブランチの削除
+git branch -d {tag_name}
+
+# リモートタグを削除
+git push --delete origin {tag_name}
+
+# タグの詳細メッセージを確認
+git tag -n5 | tail
+```

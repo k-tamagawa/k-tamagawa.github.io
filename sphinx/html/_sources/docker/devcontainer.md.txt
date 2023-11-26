@@ -1,0 +1,247 @@
+# devcontainer環境構築
+
+## 事前準備
+
+- 事前にUbuntu20.04、Windows Terminalをインストールしておくこと。
+
+- wslを開発用としてコピーする。
+
+    ```powershell
+    # ベースの環境をエクスポート
+    wsl.exe --export Ubuntu-20.04 $env:userprofile\Desktop\ubuntu2004.tar
+
+    # 名前を変えてインポート
+    wsl --import Ubuntu-20.04-dev1 $env:userprofile\AppData\Local\Ubuntu-20.04-dev1 $env:userprofile\Desktop\ubuntu2004.tar
+
+    # バージョンを2に変更する
+    wsl --set-version Ubuntu-20.04-dev1 2
+    ```
+
+- Windows Terminalを起動し、コピーしたwslを起動できることを確認する
+
+## dockerをwslにインストールする
+
+- [Dockerのインストール](/docker/docker_inst.md)
+
+- docker serviceを起動する
+
+    ```bash
+    service docker start
+    ```
+
+## プロキシ設定
+
+- devcontainer.jsonへのプロキシ設定。 **おそらく不要。** argsは`docker build`の引数で利用される。
+
+    ```json
+    {
+      "name": "hoge_name",
+      "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "args": {
+          "http_proxy": "http://msig.trancom-domain.local:80",
+          "https_proxy": "http://msig.trancom-domain.local:80",
+          "HTTP_PROXY": "http://msig.trancom-domain.local:80",
+          "HTTPS_PROXY": "http://msig.trancom-domain.local:80",
+        }
+      }
+    }
+    ```
+
+- ~/.docker/config.jsonへのプロキシ設定。  
+  [config作・・・ 参照](https://compass-upd.trancom.co.jp/sphinx/html/docker/docker_inst.html#id3)
+
+- デーモンへのプロキシ設定。  
+  [デーモンへの設定・・・ 参照](https://compass-upd.trancom.co.jp/sphinx/html/docker/docker_inst.html#id3)
+
+## サンプル Docker Compose 環境構築
+
+- wslターミナルを起動し、sample_pythonフォルダを作成する
+
+    ```bash
+    cd /home
+    mkdir sample_python
+    ```
+
+- sample_pythonフォルダに移動し、VSCodeを開く
+
+    ```bash
+    cd sample_python
+    code .
+    ```
+
+- 以下の構成で必要なファイルやフォルダをVSCodeで作成する
+
+    ```text
+    sample_python
+    │ docker-compose.yml
+    └─.devcontainer
+      │ devcontainer.json
+      └─
+    ```
+
+- docker-compose.yml
+
+    ```yaml
+    version: '3'
+    services:
+      sample_python:
+        image: python:latest
+        tty: true
+        volumes:
+          - .:/home
+    ```
+
+- devcontainer.json
+
+    ```json
+    {
+      "name": "sample_python_container",
+      "dockerComposeFile": [
+        "../docker-compose.yml"
+      ],
+      "service": "sample_python",
+      "workspaceFolder": "/home/",
+    }
+    ```
+
+- VSCodeの左下の緑アイコンをクリック後、`Open Foloer In WSL`を選択
+
+- sample_pythonフォルダを選択
+
+- 右下の通知にある`Reopen in container`をクリック
+
+- イメージがビルドされる
+
+- VSCodeのターミナルから`python --version`と入力し、起動確認
+
+## サンプル Dockerfile 環境構築
+
+- wslターミナルを起動し、sample_pythonフォルダを作成する
+
+    ```bash
+    cd /home
+    mkdir sample_node
+    ```
+
+- sample_nodeフォルダに移動し、VSCodeを開く
+
+    ```bash
+    cd sample_node
+    code .
+    ```
+
+- 以下の構成で必要なファイルやフォルダをVSCodeで作成する
+
+    ```text
+    sample_node
+    └─.devcontainer
+      │ devcontainer.json
+      │ Dockerfile
+      └─
+    ```
+
+- devcontainer.json
+
+    ```json
+    {
+      "name": "Node.js",
+      "build": {
+        "dockerfile": "Dockerfile",
+      },
+      "runArgs": [
+        "--hostname=dev_node"
+      ],
+      "customizations": {
+        "vscode": {
+          "settings": {},
+          "extensions": [
+            "dbaeumer.vscode-eslint"
+          ]
+        }
+      },
+      "portsAttributes": {
+        "3000": {
+          "label": "Hello Remote World",
+          "onAutoForward": "notify"
+        }
+      },
+      "postCreateCommand": "yarn install",
+    }
+    ```
+
+- Dockerfile
+
+    ```bash
+    FROM node:16-bullseye
+
+    ENV http_proxy="http://172.16.1.105:80"
+    ENV https_proxy="http://172.16.1.105:80"
+
+    RUN apt-get update
+    # -yをつけ忘れないこと
+    RUN apt-get install -y iputils-ping
+    RUN apt-get install -y net-tools
+    ```
+
+- VSCodeの左下の緑アイコンをクリック後、`Open Foloer In WSL`を選択
+
+- sample_nodeフォルダを選択
+
+- 右下の通知にある`Reopen in container`をクリック
+
+- イメージがビルドされる
+
+- VSCodeのターミナルから`node --version`と入力し、起動確認
+
+## サンプル microsoftのリポジトリ 環境構築
+
+- wslターミナルを起動し、vscode-remote-try-nodeをcloneする
+
+    ```bash
+    # node以外にもいろいろある
+    cd /home
+    git clone https://github.com/microsoft/vscode-remote-try-node.git
+
+    # 書き込みエラー対応（不要かも）
+    chmod 777 vscode-remote-try-node
+    ```
+
+- cloneしたフォルダに移動し、VSCodeを起動する。
+
+    ```bash
+    # 初めて起動する場合はVSCode ServerのUpdateなどが実行されるため
+    # Proxy環境化の場合は環境変数を事前に設定しておくこと
+    export HTTP_PROXY=msig.trancom-domain.local
+    export HTTPS_PROXY=msig.trancom-domain.local
+    export http_proxy=msig.trancom-domain.local
+    export https_proxy=msig.trancom-domain.local
+
+    # VSCodeの起動
+    cd /home/vscode-remote-try-node
+    code .
+    ```
+
+- Dockerfileを必要に応じ、修正する。
+
+    ```bash
+    ARG VARIANT=16-bullseye
+    FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+    # devcontainer.jsonのyarn install でエラーになったのでプロキシ追加
+    ENV http_proxy="http://172.16.1.105:80"
+    ENV https_proxy="http://172.16.1.105:80"
+    ```
+
+- devcontainer.jsonファイルを必要に応じ、修正する。
+
+    ```json
+    // wsl2側がrootユーザーの場合、書き込みできないのでコメントアウトし、rootユーザーとする
+    // "remoteUser": "node"
+    ```
+
+- 右下の通知にある`Reopen in container`をクリック
+
+- イメージがビルドされる
+
+- VSCodeのターミナルから`node --version`と入力し、起動確認

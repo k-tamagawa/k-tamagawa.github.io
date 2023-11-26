@@ -1,0 +1,113 @@
+# コマンド一覧
+
+## SQLCMD
+
+```bat
+SET HOST_NAME=localhost
+SET USER_NAME=teleport
+SET PASSWORD=teleport
+SET DB_NAME=TPORT_DB
+
+SET UPD_SQL="UPDATE M_CENTER SET CENTER_NM='名古屋情報センター' WHERE CENTER_CD='01'"
+sqlcmd -Q %UPD_SQL% -b -S %HOST_NAME% -U %USER_NAME% -P %PASSWORD% -d %DB_NAME% -o .\SQL_M_CENTER.log >> .\UPD_M_CENTER.log 2>&1
+```
+
+## SQLCMDで外部SQLファイル利用
+
+```bat
+sqlcmd -i .\DEL_INS.sql -b -S %HOST_NAME% -U %USER_NAME% -P %PASSWORD% -d %DB_NAME% -o .\SQL_DEL_INS_CENTER.log >> .\DEL_INS_CENTER.log 2>&1
+```
+
+```sql
+-- DEL_INS.sql
+DELETE FROM M_CENTER FROM WK_M_CENTER
+  WHERE M_CENTER.CENTER_CD = WK_M_CENTER.CENTER_CD
+
+INSERT INTO M_CENTER SELECT * FROM WK_M_CENTER
+```
+
+## BCPでエクスポート(バイナリ形式)
+
+```bat
+SET SQL_BCP_EXP="SELECT * FROM M_CENTER WHERE UPD_DATE_TIME >= '2022/01/01"
+bcp ^
+  %SQL_BCP_EXP% ^
+  queryout .\M_CENTER.DMP -n -S %HOST_NAME% -U %USER_NAME% -P %PASSWORD% -d %DB_NAME% -e .\EXP_M_CENTER.err >> .\EXP_M_CENTER.log 2>&1
+
+```
+
+## BCPでインポート（バイナリ形式）
+
+```bat
+bcp ^
+  M_CENTER ^
+  in %DMP_PATH% -n -S %HOST_NAME% -U %USER_NAME% -P %PASSWORD% -d %DB_NAME% -e .\IMP_M_CENTER.err >> .\IMP_M_CENTER.log 2>&1
+```
+
+## BCPでフォーマットファイルを利用したCSV出力
+
+```bat
+rem -----------------------------------------
+rem -- フォーマットファイルを利用したCSV出力
+rem -----------------------------------------
+
+SET OUT_FILE=.\MT_PROJECT.csv
+SET FMT_FILE=.\MT_PROJECT.fmt
+
+SET HOST=192.168.3.53
+SET DB_NAME=ACT
+SET USER=act_user
+SET PW=act_user
+
+rem セパレーターがカンマだった場合
+rem NULLの時の出力　    ,,     出力はなにもされない。
+rem 空文字の場合の出力  , ,    空白スペースが1文字分出力される
+SET OUT_FILE=.\MT_PROJECT.csv
+SET FMT_FILE=.\MT_PROJECT.fmt
+
+SET HOST=192.168.3.53
+SET DB_NAME=ACT
+SET USER=act_user
+SET PW=act_user
+
+SET S1= SELECT
+SET S2=   NULL, PJ_NO, 
+SET S3=   CASE RTRIM(END_FLG) WHEN '' THEN NULL ELSE END_FLG END,
+SET S4=   PJ_NAME,
+SET S5=   CASE WHEN CREATE_DATE IS NULL THEN NULL ELSE CONVERT(NVARCHAR(23), CREATE_DATE, 121) END,
+SET S6=   CASE WHEN UPDATE_DATE IS NULL THEN NULL ELSE CONVERT(NVARCHAR(23), UPDATE_DATE, 121) END
+SET S7= FROM MT_PROJECT
+bcp ^
+  "%S1%%S2%%S3%%S4%%S5%%S6%%S7%" ^
+  queryout %OUT_FILE% -f %FMT_FILE% -S %HOST% -U %USER% -P %PW% -d %DB_NAME%
+```
+
+```xml
+<!-- MT_PROJECT.fmt -->
+<!-- １列目　NULL　の終末文字が    "   -->
+<!-- ２列目　PJ_NO の終末文字が    "," -->
+<!-- １列目と２列目で              "9999999","             となる。-->
+<!-- ２列目と３列目で              "9999999","PRJ名",      となる。-->
+<!-- 最終列の終末文字が            "\r\n -->
+<!-- ５列目と最終列で              2022/12/31 00:00:00","2022/12/31 23:59:59"\r\n となる-->
+
+<?xml version="1.0"?>
+<BCPFORMAT xmlns="http://schemas.microsoft.com/sqlserver/2004/bulkload/format" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <RECORD>
+  <FIELD ID="1" xsi:type="CharTerm" TERMINATOR="&quot;"/>
+  <FIELD ID="2" xsi:type="CharTerm" TERMINATOR="&quot;,&quot;" MAX_LENGTH="7" COLLATION="Japanese_CI_AS"/>
+  <FIELD ID="3" xsi:type="CharTerm" TERMINATOR="&quot;,&quot;" MAX_LENGTH="1" COLLATION="Japanese_CI_AS"/>
+  <FIELD ID="4" xsi:type="CharTerm" TERMINATOR="&quot;,&quot;" MAX_LENGTH="100" COLLATION="Japanese_CI_AS"/>
+  <FIELD ID="5" xsi:type="CharTerm" TERMINATOR="&quot;,&quot;" MAX_LENGTH="19" COLLATION="Japanese_CI_AS"/>
+  <FIELD ID="6" xsi:type="CharTerm" TERMINATOR="&quot;\r\n" MAX_LENGTH="19" COLLATION="Japanese_CI_AS"/>
+ </RECORD>
+ <ROW>
+  <COLUMN SOURCE="1" NAME="DUMMY" xsi:type="SQLCHAR"/>
+  <COLUMN SOURCE="2" NAME="PJ_NO" xsi:type="SQLVARYCHAR"/>
+  <COLUMN SOURCE="3" NAME="END_FLG" xsi:type="SQLVARYCHAR"/>
+  <COLUMN SOURCE="4" NAME="PJ_NAME" xsi:type="SQLVARYCHAR"/>
+  <COLUMN SOURCE="5" NAME="CREATE_DATE" xsi:type="SQLVARYCHAR"/>
+  <COLUMN SOURCE="6" NAME="UPDATE_DATE" xsi:type="SQLVARYCHAR"/>
+ </ROW>
+</BCPFORMAT>
+```

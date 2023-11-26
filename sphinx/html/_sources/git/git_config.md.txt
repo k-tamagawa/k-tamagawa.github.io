@@ -1,0 +1,51 @@
+# Git 設定ファイル
+
+## gitconfigの保存場所
+
+- システム全体
+
+    ```bat
+    %programdata%\Git\config
+    ```
+
+- そのユーザーすべてのリポジトリ
+
+    ```bat
+    %userprofile%\.gitconfig
+    ```
+
+- １つのリポジトリ
+
+    ```bat
+    rem 設定対象のリポジトリ
+    SET GIT_REPOSITORY=hoge.git
+
+    rem configファイル
+    %GIT_REPOSITORY%\.git\config
+    ```
+
+## gitattributesの保存場所
+
+- システム全体
+
+    ```bat
+    rem gitattributesファイル
+    %programfiles%\Git\mingw64\etc\gitattributes
+    ```
+
+- そのユーザーすべてのリポジトリ
+
+    ```bat
+    rem gitattributesファイル
+    %userprofile%\.config\git\gitattributes
+    ```
+
+- １つのリポジトリ
+
+    ```bat
+    rem 設定対象のリポジトリ
+    SET GIT_REPOSITORY=hoge.git
+
+    rem gitattributesファイル
+    %GIT_REPOSITORY%\.git\info\gitattributes
+    ```

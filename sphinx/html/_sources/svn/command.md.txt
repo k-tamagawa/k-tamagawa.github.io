@@ -1,0 +1,15 @@
+# SVN コマンド
+
+## テキストをバイナリとして誤認識した場合
+
+```bat
+rem UTF16などはバイナリとして認識される可能性あり
+svn propset svn:mime-type text/x-tex hoge.txt
+```
+
+## ファイルのあいまい検索
+
+```bat
+rem パワポ資料を検索
+svn list -R https://compass-upd.trancom.co.jp/svn/Compass_Archive/trunk/90_リリース資料/リリース手順書 | findstr .pptx
+```

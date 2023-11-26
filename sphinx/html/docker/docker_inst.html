@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>8.2. Dockerのインストール &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="8.3. Docker情報" href="docker_info.html" />
+    <link rel="prev" title="8.1. コマンド一覧" href="command.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sample/index.html">2. サンプル集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">8. Docker</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="command.html">8.1. コマンド一覧</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.2. Dockerのインストール</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wsl2docker">8.2.1. wsl2にDockerをインストールする</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">8.2.2. Dockerサービスを起動する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-compose">8.2.3. Docker Composeをインストールする</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#localhost">8.2.4. localhostポートフォワーディングの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">8.2.5. 外部接続の設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">8.2.6. プロキシ設定</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="docker_info.html">8.3. Docker情報</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_wsl2.html">8.4. Docker for Windowsからwsl2への移行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compose_network.html">8.5. Composeのネットワーク</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devcontainer.html">8.6. devcontainer環境構築</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wsl2/index.html">9. Windows Subsystem for Linux 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kintai/index.html">15. 勤怠</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">8. </span>Docker</a> &raquo;</li>
+        
+      <li><span class="section-number">8.2. </span>Dockerのインストール</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/docker/docker_inst.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="docker">
+<h1><span class="section-number">8.2. </span>Dockerのインストール<a class="headerlink" href="#docker" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="wsl2docker">
+<h2><span class="section-number">8.2.1. </span>wsl2にDockerをインストールする<a class="headerlink" href="#wsl2docker" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># apt のアップデート</span>
+sudo apt update
+
+<span class="c1"># https経由でレポジトリを利用できるようにする</span>
+sudo apt-get install -y <span class="se">\</span>
+apt-transport-https <span class="se">\</span>
+ca-certificates <span class="se">\</span>
+curl <span class="se">\</span>
+software-properties-common
+
+<span class="c1"># Dockerの公式GPGを追加</span>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo apt-key add -
+&gt; OK
+
+<span class="c1"># GPGキーの確認</span>
+sudo apt-key fingerprint 0EBFCD88
+
+&gt; root@TR00012613:/mnt/c/Users/310102# sudo apt-key fingerprint 0EBFCD88
+&gt; pub   rsa4096 <span class="m">2017</span>-02-22 <span class="o">[</span>SCEA<span class="o">]</span>
+&gt;       9DC8 <span class="m">5822</span> 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+&gt; uid           <span class="o">[</span> unknown<span class="o">]</span> Docker Release <span class="o">(</span>CE deb<span class="o">)</span> &lt;docker@docker.com&gt;
+&gt; sub   rsa4096 <span class="m">2017</span>-02-22 <span class="o">[</span>S<span class="o">]</span>
+
+<span class="c1"># レポジトリの登録</span>
+sudo add-apt-repository <span class="se">\</span>
+<span class="s2">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span>
+<span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> \</span>
+<span class="s2">stable&quot;</span>
+
+sudo apt-get update
+
+<span class="c1"># Dockerのインストール</span>
+sudo apt-get install docker-ce
+
+<span class="c1"># 確認</span>
+docker version
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">8.2.2. </span>Dockerサービスを起動する<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 起動していなくても停止すること</span>
+sudo service docker stop
+<span class="c1"># サービス開始</span>
+sudo service docker start
+</pre></div>
+</div>
+</div>
+<div class="section" id="docker-compose">
+<h2><span class="section-number">8.2.3. </span>Docker Composeをインストールする<a class="headerlink" href="#docker-compose" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ダウンロード</span>
+sudo curl -L <span class="s2">&quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-</span><span class="k">$(</span>uname -s<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname -m<span class="k">)</span><span class="s2">&quot;</span> -o /usr/local/bin/docker-compose
+<span class="c1">#sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose -x http://msig.trancom-domain.local:80</span>
+
+<span class="c1"># 権限付与</span>
+sudo chmod +x /usr/local/bin/docker-compose
+
+<span class="c1"># シンボリックリンク（※すでにファイルが存在する場合はエラーになる）</span>
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+<span class="c1"># 確認</span>
+sudo docker-compose --version
+
+<span class="c1"># dockerグループを作成する（※すでにグループが存在する場合はエラーになる）</span>
+sudo groupadd docker
+
+<span class="c1"># 現行ユーザーをグループに含む</span>
+sudo gpasswd -a <span class="nv">$USER</span> docker
+
+<span class="c1"># サービス再起動</span>
+sudo service docker stop
+sudo service docker start
+</pre></div>
+</div>
+</div>
+<div class="section" id="localhost">
+<h2><span class="section-number">8.2.4. </span>localhostポートフォワーディングの設定<a class="headerlink" href="#localhost" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>localhost(127.0.0.1)利用時の注意点を以下に記載。</p>
+<ul>
+<li><p>高速スタートアップは無効にし、完全再起動をする。</p></li>
+<li><p>ipv4を優先する。</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="c1">rem 以下の応答の場合は優先順位の変更をする</span>
+ping localhost
+<span class="p">&gt;</span> xxx [::1]に ping を送信しています 32 バイトのデータ
+&gt; <span class="p">:</span><span class="c1">:1 からの応答</span>
+
+<span class="c1">rem 優先順位を変更</span>
+netsh interface ipv6 set prefixpolicy ::ffff:0:0/96 55 4
+netsh interface ipv6 set prefixpolicy ::1/128 50 0
+netsh interface ipv6 set prefixpolicy ::/0 40 1
+netsh interface ipv6 set prefixpolicy 2002::/16 30 2
+netsh interface ipv6 set prefixpolicy 2001::/32 5 5
+netsh interface ipv6 set prefixpolicy fc00::/7 3 13
+netsh interface ipv6 set prefixpolicy fec0::/10 1 11
+netsh interface ipv6 set prefixpolicy 3ffe::/16 1 12
+netsh interface ipv6 set prefixpolicy ::/96 1 3
+
+<span class="c1">rem 確認（::ffff:0:0/96　が一番上にあればよい）</span>
+netsh interface ipv6 show prefixpolicies
+
+優先順位   ラベル  プレフィックス
+----------  -----  --------------------------------
+        50      0  ::ffff:0:0/96
+        40      1  ::1/128
+        30      2  ::/0
+        20      3  2002::/16
+        5      5  2001::/32
+        3     13  fc00::/7
+        1     11  fec0::/10
+        1     12  3ffe::/16
+        1      4  ::/96
+</pre></div>
+</div>
+</li>
+<li><p>ユーザープロファイル直下に.wslconfigを配置し、以下を記載。<br />
+<strong>※おそらく不要※</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>例 &gt;
+%userprofile%\.wsl.config
+
+[wsl2]
+localhostForwarding=True
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">8.2.5. </span>外部接続の設定<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>wsl2のipアドレスへポートフォワーディング</p>
+<ul>
+<li><p>wsl2のipアドレスを確認する。（コンテナ内ではない）</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip a <span class="p">|</span> grep eth0 <span class="p">|</span> grep inet
+&gt; inet <span class="m">172</span>.24.171.211/20 brd <span class="m">172</span>.24.175.255 scope global eth0
+</pre></div>
+</div>
+</li>
+<li><p>ホストPCでポートフォワーディングの設定を行う</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="c1">rem 追加コマンド(例の1433はSQL Serverのポート番号)</span>
+netsh interface portproxy add v4tov4 listenport=1433 listenaddress=0.0.0.0 connectport=1433 connectaddress=172.24.171.211
+
+<span class="c1">rem 削除コマンド</span>
+netsh interface portproxy delete v4tov4 listenport=1433 listenaddress=0.0.0.0
+
+<span class="c1">rem 確認コマンド</span>
+netsh interface portproxy show all
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">8.2.6. </span>プロキシ設定<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>コンテナーが HTTP、HTTPS、FTP によるプロキシーサーバーを必要とする場合に設定が必要。</p>
+<ul>
+<li><p>config作成。コンテナーの新規生成時や起動時には、コンテナー内に環境変数が自動的に生成される。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ホームディレクトリに移動し、.dockerディレクトリを作成する</span>
+<span class="nb">cd</span> ~
+mkdir .docker
+
+<span class="c1"># configファイルを生成する</span>
+vi ~/.docker/config.json
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;proxies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;httpProxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;httpsProxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>ターミナルで環境変数を設定</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">HTTP_PROXY</span><span class="o">=</span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span>
+<span class="nb">export</span> <span class="nv">HTTP_PROXYS</span><span class="o">=</span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Dockerfile内で環境変数を設定</p>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span>ARG VARIANT<span class="p">=</span><span class="m">3</span><span class="p">-</span>bullseye
+FROM mcr.microsoft.<span class="k">com</span><span class="sr">/vscode/</span>devcontainers/python:<span class="m">0</span><span class="p">-</span>${VARIANT}
+
+ENV HTTP_PROXY<span class="p">=</span>http:<span class="sr">//</span>msig.trancom<span class="p">-</span>domain.local:<span class="m">80</span>
+ENV HTTP_PROXYS<span class="p">=</span>http:<span class="sr">//</span>msig.trancom<span class="p">-</span>domain.local:<span class="m">80</span>
+</pre></div>
+</div>
+</li>
+<li><p>デーモンへの設定。imageをpullする際に利用される。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /etc/default/
+vi docker
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># dockerファイルに以下を追記</span>
+<span class="nb">export</span> <span class="nv">no_proxy</span><span class="o">=</span><span class="s1">&#39;export no_proxy=127.0.0.1,localhost&#39;</span>
+<span class="nb">export</span> <span class="nv">NO_PROXY</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">no_proxy</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span><span class="s1">&#39;http://msig.trancom-domain.local:80/&#39;</span>
+<span class="nb">export</span> <span class="nv">HTTP_PROXY</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">http_proxy</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span><span class="s1">&#39;http://msig.trancom-domain.local:80/&#39;</span>
+<span class="nb">export</span> <span class="nv">HTTPS_PROXY</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">https_proxy</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="docker_info.html" class="btn btn-neutral float-right" title="8.3. Docker情報" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="command.html" class="btn btn-neutral float-left" title="8.1. コマンド一覧" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

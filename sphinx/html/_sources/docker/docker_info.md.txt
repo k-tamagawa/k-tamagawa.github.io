@@ -1,0 +1,16 @@
+# Docker情報
+
+## フォルダ構成
+
+- docker for windowsのvolumeの保存場所
+
+  ```text
+  explorer \\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes
+  ```
+
+- wsl2のvolumeの保存場所
+
+  ```text
+  \\wsl$\Ubuntu-20.04\var\lib\docker\volumes
+  ```
+

@@ -1,0 +1,16 @@
+.. ProjectX documentation master file, created by
+   sphinx-quickstart on Thu Jul 22 20:54:18 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+保守用：SQL Server
+====================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 目次:
+
+   common.md
+   LOG_DB.md
+   command.md
+   other_sql.md

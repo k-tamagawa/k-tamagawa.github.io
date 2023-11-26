@@ -1,0 +1,19 @@
+# curl
+
+## Windows
+
+```bat
+rem Windowsはダブルクォーテーションをエスケープしないとイケない
+rem -X：HTTPメソッドの指定 -d：フォームの送信 -H：HTTPヘッダの指定
+curl -i -H "Content-Type: application/json" -X POST -d "{\"filename\":\"test.jpg\"}" 127.0.0.1:5000/detect
+
+rem プロキシ経由
+curl -X POST https://api.smslink.jp/api/v1/delivery --proxy http://msig.trancom-domain.local:80
+```
+
+## Window(Git Bash)
+
+```bash
+# ダブルクォーテーションのエスケープは不要
+rem curl -i -H "Content-Type: application/json" -X POST -d '{"filename":"test.jpg"}' 127.0.0.1:5000/detect
+```

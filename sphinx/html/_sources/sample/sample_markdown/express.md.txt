@@ -1,0 +1,333 @@
+# [Express](http://expressjs.com/)
+
+<div style="background-color: Lightskyblue; padding: 5px"><font color="white"><b>注釈</b></font></div>
+<div style="background-color: LightCyan; padding: 5px">
+画面右上の <a href="../../_sources/sample/sample_markdown/mattermost.md.txt">View page source</a> をクリックするとマークダウンを確認できます。<br>文字化けする場合はChromeだと拡張機能でCharsetを追加してください。
+</div>
+
+---
+- [app.listen](#app-listen)
+- [app.use](#app-use)
+- [app.set](#app-set)
+
+---
+
+<a id="app-listen"></a>
+
+**app.listen([port[, host[, backlog]]][, callback])**
+
+[参考URL](http://expressjs.com/en/5x/api.html#app.listen)
+
+指定されたホストとポートを利用して接続をバインドしてリッスンします。  
+このメソッドはnodeの[http.Serverlisten()](https://nodejs.org/api/http.html#http_server_listen)と同じです。  
+もし、ポートが省略もしくは0の場合は、オペレーティングシステムが任意の未使用ポートを割り当てします。  
+これは自動化されたタスク(テストなど)の場合に役に立ちます。  
+``` javascript
+const express = require('express')
+const app = express()
+app.listen(3000)
+```
+express()によって返されたこのappは、実際はjavascript関数で、リクエストを処理するためにコールバックとしてnodeのHTTPサーバーに渡されるように設計されています。  
+
+これはhttpとhttpsの両方のバージョンを同じコードベースであなたのアプリを提供することを容易にします。  
+このアプリはこれらから継承しないので。（これは単なるコールバックです）
+``` javascript
+const express = require('express')
+const https = require('https')
+const http = require('http')
+const app = express()
+
+http.createServer(app).listen(80)
+https.createServer(options, app).listen(443)
+```
+
+app.listen()メソッドは、http.Serverオブジェクトを返し、(httpの場合)は以下の便利なメソッドです。
+```javascript
+app.listen = function() {
+  var server = http.createServer(this)
+  return server.listen.apply(server, arguments)
+}
+```
+
+<div style="background:#F7FAEC; padding:10px; margin:10px">
+注意:nodeのhttp.Server.listen()メソッドのすべての形式は事実実際はサポートされています。
+</div>
+
+---
+
+<a id="app-use"></a>
+
+**app.use([path,],callback[,callback...])**  
+
+[参考URL](http://expressjs.com/en/5x/api.html#app.use)
+
+指定されたミドルウェア関数、または指定したパスの関数をマウントします：
+ミドルウェア関数はリクエストされたパスのベースがパスと一致した時に実行されます。
+
+**引数**
+| 引数 | 説明 | デフォルト    |
+| ---- | ---- | ---------- |
+| path | ミドルウェアが呼び出されるパスは次のいずれかになります:<ul><li>パスを表す文字</li><li>パスパターン</li><li>パスに一致する正規表現パターン</li><li>上記のいずれかの組み合わせの配列</li></ul>例については、[パスの例](http://expressjs.com/en/5x/api.html#path-examples)を参照してください| '/'(ルートパス)|
+| callback | コールバック関数は次のことができる：<ul><li>ミドルウェア関数</li><li>一連のミドルウェア関数</li><li>ミドルウェア関数の配列</li><li>上記のすべての組み合わせ</li></ul>ミドルウェアと同じように動作するコールバック関数を提供できますが、これらのコールバックはnext('route')を呼び出して、残りのルートコールバックをバイパスできます。このメカニズムを使用して、ルートに前提条件を課すことができます。次に、現在のルートを続行する理由がない場合は、後続のルートに制御を渡します。|なし
+| | |
+
+**説明**
+
+ルートはすぐに"/"でそのパスをたどって行くかのパスと一致するでしょう。例：`app.use('/apple,...)`は、"/apple","/apple/images","/apple/images/news"等と一致するでしょう。  
+パスのデフォルトは"/"であるため、パスなしでマウントされたミドルウェアはアプリへのすべてのリクエストに対して実行されるでしょう。  
+例えば、このミドルウェア関数はアプリへの全てのリクエストに対して実行されるでしょう。
+```javascript
+app.use(function (req, res, next) {
+  console.log(`Time: %d`, Date.now())
+  next()
+})
+```
+<div style="background:#F7FAEC; padding:10px; margin:10px">
+<b>注意</b>
+<p>サブアプリは次のようになります：</p>
+<ul>
+<li>デフォルト値を持つ設定の値を継承しない。</li>
+<li>デフォルト値なしで設定の値を継承します。</li>
+</ul>
+詳細については<a href="http://expressjs.com/en/5x/api.html#app.settings.table">アプリケーションの設定</a>について参照してください
+</div>
+
+ミドルウェア関数は順次実行される。したがってミドルウェアを含んだ順番は重要です。
+```javascript
+// このミドルウェアはそれを超えるリクエストを許可しません
+app.use(function(req, res, next) {
+  res.send('Hello World')
+})
+
+//リクエストはこのルートに到達することはない
+app.get('/', function(req, res, next){
+  res.send('Hello World')
+})
+
+```
+
+**エラーハンドリングミドルウェア**
+
+エラーハンドリングミドルウェアは常に４つの引数をとります。それをエラーハンドリングミドルウェアと識別するために４つの引数を提供しなければならない。たとえ次のオブジェクトを必要としなくてもシグネチャを維持するためにそれを指定しなければならない。さもないと次のオブジェクトは通常のミドルウェアとして解釈されるでしょう。エラーの処理は失敗するでしょう。エラーハンドリングの詳細については、[エラーハンドリング](http://expressjs.com/en/guide/error-handling.html)を参照してください。
+
+他のミドルウェア関数と同じようにエラーハンドリングミドルウェアを定義しますが３つではなく４つの引数であること、特に(err, req, res, next)シグネチャを使用します。
+```javascript
+app.use(function(err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+```
+
+**パスの例**
+
+ミドルウェアをマウントするための有効なパスの簡単な例をいくつか提供します。
+
+- パス  
+  これは/abcdで始まるパスと一致します。
+  ```javascript
+  app.use('/abcd', function(req, res, next){
+    next()
+  })
+  ```
+- パスパターン  
+  これは/abcdとabdで始まるパスと一致します。
+  ```javascript
+  app.use('/abc?d', function (req, res, next) {
+    next()
+  })
+  ```
+  これは/abcd、/abbcd、/abbbbbcdなどで始まるパスと一致します。
+  ```javascript
+  app.use('/ab+cd', function (req, res, next) {
+    next()
+  })
+  ```
+  これは/abcd, /abxcd, /abFOOcd, /abbArcdなどで始まるパスと一致します。
+  ```javascript
+    app.use('/ab*cd', function (req, res, next) {
+    next()
+  })
+  ```
+  これは/adと/abcdで始まるパスと一致します。
+  ```javascript
+    app.use('/a(bc)?d', function (req, res, next) {
+    next()
+  ```
+- 正規表現  
+  これは/abc、/xyzで始まるパスと一致します。
+  ```javascript
+  app.use(/\/abc|\/xyz/, function(req, res, next){
+    next()
+  })
+  ```
+- 配列  
+  これは/abcd、/xyza、/lmn、/pqrで始まるパスと一致します。
+  ```javascript
+  app.use(['/abcd', '/xyza', /\/lmn|\/pqr/], function (req, res, next) {
+    next()
+  })
+  ```
+
+**ミドルウェアコールバック関数の例**
+
+app.use()、app.METHOD()、app.all()へのコールバック引数として使用できるミドルウェア関数の簡単な例をいくつか紹介します。例はapp.use()ですが、app.METHOD()、app.all()でも有効です。
+
+- 単一ミドルウェア  
+  ミドルウェア関数をローカルに定義してマウントできます
+  ```javascript
+  app.use(function(req, res, next){
+    next()
+  })
+  ```
+  ルーターは有効なミドルウェアです
+  ```javascript
+  var router = express.Router()
+  router.get('/', function(req, res, next){
+    next()
+  })
+  app.use(router)
+  ```
+  Expressアプリは有効なミドルウェアです
+  ```javascript
+  var subApp = express()
+  subApp.get('/', function (req, res, next) {
+    next()
+  })
+  app.use(subApp)
+  ```
+- ミドルウェアのシリーズ  
+  同じマウントパスを１より多くのミドルウェアを指定できる。
+  ```javascript
+  var r1 = express.Router()
+  r1.get('/', function (req, res, next) {
+    next()
+  })
+
+  var r2 = express.Router()
+  r2.get('/', function (req, res, next) {
+    next()
+  })
+
+  app.use(r1, r2)
+  ```
+- 配列  
+  配列を使用してミドルウェアを論理的にグループ化する
+  ```javascript
+  var r1 = express.Router()
+  r1.get('/', function (req, res, next) {
+    next()
+  })
+
+  var r2 = express.Router()
+  r2.get('/', function (req, res, next) {
+    next()
+  })
+
+  app.use([r1, r2])
+  ```
+- 組み合わせ  
+  マウントするミドルウェアを上記の方法すべて組み合わせることができる
+  ```javascript
+  function mw1 (req, res, next) { next() }
+  function mw2 (req, res, next) { next() }
+
+  var r1 = express.Router()
+  r1.get('/', function (req, res, next) { next() })
+
+  var r2 = express.Router()
+  r2.get('/', function (req, res, next) { next() })
+
+  var subApp = express()
+  subApp.get('/', function (req, res, next) { next() })
+
+  app.use(mw1, [mw2, r1, r2], subApp)
+  ```
+
+以下は、Expressアプリ内の[express.static](http://expressjs.com/en/guide/using-middleware.html)ミドルウェアを使用するいくつかの例です。  
+アプリケーションフォルダ内のpublicフォルダからアプリの静的コンテンツを提供します。
+```javascript
+// GET /style.css etc
+app.use(express.static(path.join(__dirname, 'public')))
+```
+
+ミドルウェアを/staticにマウントして、リクエストパスの前に/staticとついている時だけ静的コンテンツを提供します。
+```javascript
+// GET /style.css etc
+app.use('/static', express.static(path.join(__dirname, 'public')))
+```
+
+静的ミドルウェアの後にロガーミドルウェアをロードして静的コンテンツリクエストのロギングを無効にします。
+```javascript
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(logger())
+```
+
+複数の静的ファイルを提供しますが、他のディレクトリよりもpublicを優先します。
+```javascript
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'files')))
+app.use(express.static(path.join(__dirname, 'uploads')))
+```
+
+<a id="app-set"></a>
+
+**app.set(name, value)**  
+
+[参考URL](http://expressjs.com/en/5x/api.html#app.set)
+
+設定名に値を割り当てます。あなたがほしいいくらかの値を保存できる。しかし特定の名前はサーバーの動作を構成するために使用できる。これらの特定の名前はアプリの設定テーブルに一覧表示されます。  
+Booleanプロパティの`app.set('foo',true)`を呼び出すことは`app.enable('foo')`を呼び出すのと同じです。同様に Booleanプロパティの`app.set('foo',false)`を呼び出すことは`app.disable('foo')`を呼び出すのと同じです。  
+`app.get()`を使って設定値を取得する。
+```javascript
+app.set('title', 'My Site')
+app.get(title) // "My Site"
+```
+
+**アプリケーションの設定**
+次の表に、アプリケーションの設定を一覧表示します。
+サブアプリは次のことに注意してください。
+- デフォルト値を持つ設定値を継承しない。サブアプリで値を設定する必要がある
+- デフォルト値なしで設定値を継承する。これらは以下の一覧に明示的に記載されています。
+
+例外：サブアプリはtrust proxyの値を継承します。たとえそれがデフォルト値としても（下位互換のため）；サブアプリは本番環境でViewキャッシュの値を継承しないでしょう。（NODE_ENVが"productionの時）
+
+|プロパティ|型|説明|デフォルト|
+|-|-|-|-|
+|case sensitive routing|Boolean|大文字小物の区別を有効にする。"/Foo" and "/foo"が違うルートの時有効にする。"/Foo" and "/foo"が同じように扱う時無効にする。<br>注意：サブアプリはこの設定値を継承します。|N/A(未定義)|
+|env|String|環境モード。<br>本番環境では必ず"production"に設定してください:<br>[Productionのベストプラクティス](http://expressjs.com/tr/advanced/best-practice-performance.html)を参照してください:<br>[パフォーマンスと信頼性](http://expressjs.com/tr/advanced/best-practice-performance.html)を参照してください。|process.env.NODE_ENV(NODE_ENV環境変数) もしくは NODE_ENVが未設定なら"development"|
+|etag|Varied|ETagレスポンスヘッダーを設定します。可能な値についてはetag[オプション表](http://expressjs.com/en/5x/api.html#etag.options.table)を参照してください。<br>(httpのETagヘッダーの詳細)[https://en.wikipedia.org/wiki/HTTP_ETag]|weak|
+|jsonp callback name|String|デフォルトのJSONPコールバック名を指定します。|callback|
+|json escape|Boolean|res.json,res.jsonp,res.send APIからのJSONレスポンスのエスケープを有効にする。これはJSON内のエスケープシーケンスとしての<,>,&をエスケープする。これを支援する目的は特定の永続的なXSS攻撃を軽減する、クライアントがHTMLのレスポンスをスニッフィングする時<br>**注意**:<br>サブアプリは設定値を継承しない|
+json replacer|Varied|'replacer'引数は`JSON.stringify`で使われる。<br>注意：サブアプリはこの値を継承します。|N/A(未定義)|
+|json spaces|VAried|'space'引数は`JSON.stringify`で使われる。これは通常、きれいなJSONのインデントで利用するスペースの数の設定です。<br>注意：サブアプリはこの値を継承します。|N/A(未定義)|
+|query parser|Varied|値をfalseに設定してクエリ分析を無効にします。もしくは"simple"か"extended"か"カスタムクエリ文字列を解析する関数"のいずれかを使用するクエリ分析を設定します。<br><br>"simple"クエリ解析はNodeのネイティブクエリパーサーである[querystring](https://nodejs.org/api/querystring.html)に基いています。<br><br>"extended"クエリパーサーは[qs](https://www.npmjs.com/package/qs)に基いています。<br><br>カスタムクエリ文字列解析関数は、完全なクエリ文字を受け取り、オブジェクトキーのオブジェクトとそれらの値を返す必要があります。|"extended"|
+|strict routing|Boolean|strict routingを有効にします。有効にする時、routerは"/foo"と"/foo/"を違うものとして扱います。それ以外は"/foo"と"/foo/"は同じように扱います。<br>注意：サブアプリは設定値を継承します。|N/A(未定義)|
+|subdomain offset|Number|サブドメインにアクセスするために削除するホストのドット区切りの部部分の数|2|
+|trust proxy|Varied|アプリが前面プロキシの背後にあることを示します。そしてX-Forwarded-\*ヘッダーを使用してクライアントの接続とIPアドレスを決定します。<br>注意：X-Forwarded-\*ヘッダーは簡単になりすませる。そして検出されたIPアドレスは信頼できません。<br>有効にした時、Expressは前面プロキシ、また一連のプロキシを通して接続されたクライアントのIPアドレスを検出しようと試みます。`req.ips`プロパティにはクライアントが接続されたIPアドレスの配列を含んでいます。それを有効にするには、[trust proxy options table](http://expressjs.com/en/5x/api.html#trust.proxy.options.table)で説明されている値を使用します。<br>`trust proxy`設定は[proxy-addr](http://expressjs.com/en/5x/api.html#trust.proxy.options.table)パッケージを使って実装されます。詳細はそのドキュメントを参照してください。<br>注意：サブアプリはこの設定値を継承します。デフォルト値はありますが、|false(disabled)|
+|views|String or Array|アプリケーションのビューのためのディレクトリの配列、もしくはディレクトリ。配列の場合、ビューはその順番で検索される、それは配列内で発生します。|process.cmd()+ '/views'|
+|view cache|Boolean|ビューテンプレートのコンパイルキャッシュを有効にします。<br>注意：サブアプリは設定値を継承します。|N/A(未定義)|
+|view engine|String|省略した時に使用するデフォルトのエンジン拡張子。<br>注意：サブアプリは設定値を継承します。|N/A(未定義)|
+|x-powered-by|Boolean|"X-Powered-By:Express"のHTTPヘッダーを有効にします。|true|
+
+`trust proxy`設定のオプション
+
+詳細な情報については[Express behind proxies](http://expressjs.com/tr/guide/behind-proxies.html)を読んでください。
+
+|型|値|
+|-|-|
+|Boolean|trueの場合、クライアントのIPアドレスはX-Forwarded-*ヘッダーの左端のエントリーとして理解されます。<br>falseの場合、アプリはインターネットに直面していると理解され、クライアントIPアドレスはreq.connection.remoteAddressから取得されます。|
+|String<br>String contining<br>comma-separated<br>values<br>Array of strings|IPアドレス、サブネット、もしくはIPアドレス配列、そして信頼されたサブネット。事前構成されたサブネット名は次のとおりです。<ul><li>loopback - 127.0.0.1/8::1/128</li><li>linklocal - 169.254.0.0/16, fe80::/10</li><li>uniquelocal - 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, fc00::/7</li></ul><br>次のいくつかの方法に従いIPアドレスを設定してください。<br>単一のサブネットを指定します。<div style="background:#F7F7F7; padding:10px; margin:10px">`app.set('trust proxy', 'loopback')`</div>サブネットやアドレスを指定します。<div style="background:#F7F7F7; padding:10px; margin:10px;">`app.set('trust proxy', 'loopback, 123.123.123.123')`</div>CSVとして複数のサブネットを指定します。<div style="background:#F7F7F7; padding: 10px; margin:10px">`app.set('trust proxy', 'loopback, linklocal, uniquelocal')`</div>配列で複数のサブネットを指定します。<div style="background:#F7F7F7; padding:10px;margin:10px">`app.set('trust proxy',['loopback', 'linklocal', 'uniquelocal'])`</div>指定された場合、IPアドレスまたはサブネットはアドレス決定プロセスから除外され、アプリケーションサーバーに最も近い信頼されないIPアドレスはクライアントのIPアドレスとして決定されます。|
+|Number|前面プロキシサーバーからのN番目のホップをクライアントとして信頼します。|
+|Function|カスタム信頼の実装。何をしているか知っている場合だけこれを使用してください。<div style="background:#F7F7F7; margin:10px; padding:10px">`app.set('trust proxy', function(ip) {`<br>`if(ip==='127.0.0.1' \|\| ip === '123.123.123.123')`<br>&nbsp;&nbsp;`return true`<br>`else`<br>&nbsp;&nbsp;`return false`<br>`})`</div>
+
+`etag`設定のためのオプション  
+
+注意:これらの設定は動的ファイルでのみ適用され、静的ファイルでは適用されません。[express.static](http://expressjs.com/en/5x/api.html#express.static)はこれらの設定を無視します。  
+  
+ETag機能は[etagパッケージ](https://www.npmjs.com/package/etag)を使うことで実装される。詳細情報についてはそのドキュメントを参照してください。
+
+|型|値|
+|-|-|
+|Boolean|true は弱いETagを有効にする。これはデフォルト設定です。<br>falseは完全にETagを無効にします。|
+|String|"strong"の場合、強いETagを有効にする。<br>"weak"の場合、弱いETagを有効にする。|
+|Function|カスタムETag機能の実装。これは何をしているかわかってる時だけ使用してください。<div style="background:#F7F7F7; padding:10px;margin:10px">`app.set('etag' function(body, encoding) {`<br>&nbsp;&nbsp;`return generateHash(body, encoding)`<br>`})`</div>|

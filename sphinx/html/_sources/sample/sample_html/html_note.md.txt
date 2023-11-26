@@ -1,0 +1,29 @@
+# 注釈
+
+## div
+
+<div style="background-color: hotpink; padding: 4px"><font color="white">エラー</font></div>
+<div style="background-color: pink; padding: 4px">赤信号</div>　　
+
+```html
+<div style="background-color: hotpink; padding: 4px"><font color="white">エラー</font></div>
+<div style="background-color: pink; padding: 4px">赤信号</div>　
+```
+
+## p
+
+<p style="background-color: Lightskyblue; padding: 4px"><b style="color: white">情報</b><br>青信号</p>
+
+```html
+<p style="background-color: Lightskyblue; padding: 4px"><b style="color: white">情報</b><br>青信号</p>
+```
+
+## span
+
+<span style="background-color: Yellow; padding: 4px">警告</span>
+<span style="background-color: Khaki; padding: 4px;margin-left:-4px">黄信号</span>
+
+```html
+<span style="background-color: Yellow; padding: 4px">警告</span>
+<span style="background-color: Khaki; padding: 4px;margin-left:-4px">黄信号</span>
+```

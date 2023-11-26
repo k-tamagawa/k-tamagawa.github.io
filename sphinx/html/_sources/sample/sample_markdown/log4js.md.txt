@@ -1,0 +1,76 @@
+# [log4js-node](https://log4js-node.github.io/log4js-node/)
+
+<div style="background-color: Lightskyblue; padding: 5px"><font color="white"><b>注釈</b></font></div>
+<div style="background-color: LightCyan; padding: 5px">
+画面右上の <a href="../../_sources/sample/sample_markdown/mattermost.md.txt">View page source</a> をクリックするとマークダウンを確認できます。<br>文字化けする場合はChromeだと拡張機能でCharsetを追加してください。
+</div>
+
+---
+
+1. [Layouts](#node_layout)
+1. [組み込みレイアウト](#node_basic)
+
+---
+<a id="node_layout"></a>
+
+***Layouts***
+
+[参考URL](https://log4js-node.github.io/log4js-node/layouts.html)
+
+Layoutsはログイベントの出力をフォーマットするためにappendarによって利用される機能です。
+引数としてログイベントを受け取り、文字列を返します。log4jsには、いくつかのappenderが組み込まれており、もし適切でないならあなた自身で作成する方法を提供する。
+
+**構成**
+
+ほとんどのappender構成は、layoutと呼ばれる項目を取ります。
+これは通常、単一フィールドタイプのオブジェクトです。
+これは以下に定義されたレイアウトの名前です。
+
+**例**
+```javascript
+log4js.configure({
+  appenders: { out: { type: 'stdout', layout: {type: 'basic'}}},
+  categories: { default: { appenders: ['out'], level: 'info'}}
+})
+```
+この構成はstdoutアペンダーのデフォルト色のついたレイアウトを基本レイアウトに置き換えます。
+
+<a id="node_basic"></a>
+
+***組み込みレイアウト***
+
+**Basic**
+
+- type - basic
+
+基本レイアウトはtimestamp、level、categoryに続いてフォーマットされたログイベントデータが出力されるでしょう。
+
+```javascript
+log4js.configure({
+  appenders: { 'out': { type: 'stdout', layout: { type: 'basic' } } },
+  categories: { default: { appenders: ['out'], level: 'info' } }
+});
+const logger = log4js.getLogger('cheese');
+logger.error('Cheese is too ripe!');
+```
+
+これが出力されるでしょう
+```
+[2017-03-30 07:57:00.113] [ERROR] cheese - Cheese is too ripe!
+```
+
+**色**
+
+- type -coloured(or colored)
+
+このレイアウトはbasicと同じです。timestamp、level、categoryはログイベントレベルに応じて色づけされることを除いて。端末/ファイルがそれをサポートしている場合 - もしいくつかの奇妙な文字が出力され、色がつかない場合、おそらくbasicに切替えたほうがよい。  
+  
+使える色：
+- TRACE - 'blue'
+- DEBUG - 'cyan'
+- INFO - 'green'
+- WARN - 'yellow'
+- ERROR - 'red'
+- FATAL - 'magenta'
+
+
