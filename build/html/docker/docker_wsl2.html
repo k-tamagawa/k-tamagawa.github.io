@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>8.4. Docker for Windowsからwsl2への移行 &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="8.5. Composeのネットワーク" href="compose_network.html" />
+    <link rel="prev" title="8.3. Docker情報" href="docker_info.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sample/index.html">2. サンプル集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">8. Docker</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="command.html">8.1. コマンド一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_inst.html">8.2. Dockerのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_info.html">8.3. Docker情報</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.4. Docker for Windowsからwsl2への移行</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wsl2docker">8.4.1. wsl2にDockerをインストールする</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">8.4.2. イメージの移行</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="compose_network.html">8.5. Composeのネットワーク</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devcontainer.html">8.6. devcontainer環境構築</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wsl2/index.html">9. Windows Subsystem for Linux 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kintai/index.html">15. 勤怠</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">8. </span>Docker</a> &raquo;</li>
+        
+      <li><span class="section-number">8.4. </span>Docker for Windowsからwsl2への移行</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/docker/docker_wsl2.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="docker-for-windowswsl2">
+<h1><span class="section-number">8.4. </span>Docker for Windowsからwsl2への移行<a class="headerlink" href="#docker-for-windowswsl2" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="wsl2docker">
+<h2><span class="section-number">8.4.1. </span>wsl2にDockerをインストールする<a class="headerlink" href="#wsl2docker" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="docker_inst.html"><span class="doc std std-doc">Dockerのインストール</span></a></p>
+</div>
+<div class="section" id="id1">
+<h2><span class="section-number">8.4.2. </span>イメージの移行<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Docker for Windowsのサービスは<strong>停止</strong>しておくこと</p>
+<ul>
+<li><p>imageのエクスポート</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="c1">rem Docker for Windows 側でイメージをエクスポート</span>
+docker save my_mysql <span class="p">&gt;</span> my_mysql.tar
+docker save postgres:12.1 <span class="p">&gt;</span> postgres12_1.tar
+docker save dpage/pgadmin4 <span class="p">&gt;</span> dpage_pgadmin4.tar
+docker save my_sqlserver <span class="p">&gt;</span> my_sqlserver.tar
+docker save mongo <span class="p">&gt;</span> mongo.tar
+docker save mongo-express <span class="p">&gt;</span> mongo-express.tar
+docker save mongo_replica_set_ssh-server <span class="p">&gt;</span> mongo_replica_set_ssh-server.tar
+</pre></div>
+</div>
+</li>
+<li><p>imageのインポート</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># wsl2側でイメージをインポート</span>
+docker load &lt; my_mysql.tar
+docker load &lt; postgres12_1.tar
+docker load &lt; dpage_pgadmin4.tar
+docker load &lt; my_sqlserver.tar
+docker load &lt; mongo.tar
+docker load &lt; mongo-express.tar
+docker load &lt; mongo_replica_set_ssh-server.tar
+</pre></div>
+</div>
+</li>
+<li><p>コンテナの起動/停止</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># mysqlのパス</span>
+<span class="nb">cd</span> /mnt/c/git/sample/docker-mysql/mysql
+<span class="c1"># 初回だけボリューム作成をすること</span>
+docker volume create --name<span class="o">=</span>mysql-data
+
+<span class="c1">#postgresqlのパス</span>
+<span class="nb">cd</span> /mnt/c/Users/310102/Desktop/MyDev/90_Sample/sample_angular/サーバー構成/ドライブ_C/AngularTool/docker/postgres
+
+<span class="c1"># sqlserverのパス</span>
+<span class="nb">cd</span> /mnt/c/git/sample/docker-mssql/mssql
+<span class="c1"># 初回だけボリューム作成をすること</span>
+docker volume create --name<span class="o">=</span>mssql-data
+
+<span class="c1"># mongodbのパス(readme.mdに従い、レプリカセットの設定を行うこと)</span>
+<span class="nb">cd</span> /mnt/c/Users/310102/Desktop/MyDev/90_Sample/sample_angular/サーバー構成/ドライブ_C/AngularTool/docker/mongo_replica_set
+
+<span class="c1"># 起動</span>
+docker-compose up
+
+<span class="c1"># 停止</span>
+docker-compose down
+</pre></div>
+</div>
+</li>
+<li><p>ダンプの復元(postgresql)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># postgresqlの復元</span>
+<span class="nv">PG_FILE</span><span class="o">=</span>postgres_20220109_070001.dmp
+docker <span class="nb">exec</span> -i postgresql psql postgres &lt; <span class="nv">$PG_FILE</span>
+
+<span class="c1"># 確認</span>
+http://localhost:15432/login
+root/root
+</pre></div>
+</div>
+</li>
+<li><p>ダンプの復元(SQL Server)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MSSQL_FILE</span><span class="o">=</span>ACT_20220109_070002.bak
+
+<span class="c1"># コンテナ内にダンプファイルをコピーし、SQL Server Management Studioで復元する</span>
+docker cp ./<span class="nv">$MSSQL_FILE</span> sqlserver:/tmp/<span class="nv">$MSSQL_FILE</span>
+
+<span class="c1"># コンテナ内のダンプを削除</span>
+docker <span class="nb">exec</span> -it sqlserver rm /tmp/<span class="nv">$MSSQL_FILE</span>
+</pre></div>
+</div>
+</li>
+<li><p>ダンプの復元(MySQL)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ダンプファイルの１行目にWarningログが出力されている場合は削除する</span>
+<span class="nv">MYSQL_FILE</span><span class="o">=</span>sample_20220109_070001.dmp
+docker <span class="nb">exec</span> -i mysql mysql -u root -ppassw0rd sample &lt; <span class="nv">$MYSQL_FILE</span>
+
+<span class="c1"># 確認</span>
+mysql -u root -ppassw0rd sample
+&gt; show databases<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p>ダンプの復元(mongodb)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># mongodbの復元</span>
+<span class="c1"># Primaryへの復元を行う。http://localhost:8081/でPrimaryのコンテナを確認可能。</span>
+<span class="nv">BK_OUT</span><span class="o">=</span>mongo_mongors001_20220109_070001
+<span class="nv">PRIMARY_HOST</span><span class="o">=</span>mongors001
+<span class="nv">PORT</span><span class="o">=</span><span class="m">27017</span>
+
+<span class="c1"># コンテナにダンプをコピー、解凍</span>
+docker cp ./<span class="nv">$BK_OUT</span>.tar.gz <span class="nv">$PRIMARY_HOST</span>:<span class="nv">$BK_OUT</span>.tar.gz
+docker <span class="nb">exec</span> -it <span class="nv">$PRIMARY_HOST</span> tar -zxvf <span class="nv">$BK_OUT</span>.tar.gz
+
+<span class="c1"># 復元</span>
+docker <span class="nb">exec</span> -it <span class="nv">$PRIMARY_HOST</span> mongorestore --host<span class="o">=</span>localhost --port<span class="o">=</span><span class="nv">$PORT</span> --username<span class="o">=</span>root --password<span class="o">=</span>passw0rd --authenticationDatabase<span class="o">=</span>admin <span class="nv">$BK_OUT</span>
+
+<span class="c1"># コンテナ内のダンプを削除</span>
+docker <span class="nb">exec</span> -it <span class="nv">$PRIMARY_HOST</span> rm <span class="nv">$BK_OUT</span>.tar.gz
+docker <span class="nb">exec</span> -it <span class="nv">$PRIMARY_HOST</span> rm -rf <span class="nv">$BK_OUT</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="compose_network.html" class="btn btn-neutral float-right" title="8.5. Composeのネットワーク" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="docker_info.html" class="btn btn-neutral float-left" title="8.3. Docker情報" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

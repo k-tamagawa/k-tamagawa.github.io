@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>15.1. 勤次郎の打刻 &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="15. 勤怠" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sample/index.html">2. サンプル集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">8. Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wsl2/index.html">9. Windows Subsystem for Linux 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">15. 勤怠</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">15.1. 勤次郎の打刻</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">15.1.1. 同一週内で振替の場合（振休）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">15.1.2. 同一週以外で振替の場合（代休）、下記の２つを申請</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">15.1.3. 休日出勤（振替なし）の場合（休出）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">15.1.4. 遅刻、早退の場合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">15.1.5. 4/1～4/2仕事した場合の4/2を残業とする場合</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">15. </span>勤怠</a> &raquo;</li>
+        
+      <li><span class="section-number">15.1. </span>勤次郎の打刻</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/kintai/kinjirou.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1><span class="section-number">15.1. </span>勤次郎の打刻<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2><span class="section-number">15.1.1. </span>同一週内で振替の場合（振休）<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>『振休振出』で申請</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">15.1.2. </span>同一週以外で振替の場合（代休）、下記の２つを申請<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>休日出勤する日を『勤務変更申請』で勤務種類「195 代休休日出勤」を選び申請</p></li>
+<li><p>代休取得する日を『休暇』申請で申請の種類「代休」を選び申請</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">15.1.3. </span>休日出勤（振替なし）の場合（休出）<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>『勤務変更申請』で勤務種類「185 休日出勤」を選び申請</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">15.1.4. </span>遅刻、早退の場合<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>必要に応じメールで連絡</p></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">15.1.5. </span>4/1～4/2仕事した場合の4/2を残業とする場合<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>打刻申請で、<code class="docutils literal notranslate"><span class="pre">日付</span></code>を2023/4/1とし、<code class="docutils literal notranslate"><span class="pre">勤務時間</span></code>のTo側を翌日として退勤時間を入力する。</p>
+<p><img alt="4月1日の打刻申請" src="../_images/dakoku_1.png" /></p>
+</li>
+<li><p>打刻申請で、<code class="docutils literal notranslate"><span class="pre">日付</span></code>を2023/4/2とし、<code class="docutils literal notranslate"><span class="pre">勤務時間</span></code>の<code class="docutils literal notranslate"><span class="pre">実績の打刻を削除</span></code>にチェックをいれる。</p>
+<p><img alt="4月2日の打刻申請" src="../_images/dakoku_2.png" /></p>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="15. 勤怠" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

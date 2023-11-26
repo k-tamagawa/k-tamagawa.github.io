@@ -1,0 +1,120 @@
+# Docker for Windowsからwsl2への移行
+
+## wsl2にDockerをインストールする
+
+[Dockerのインストール](/docker/docker_inst.md)
+
+## イメージの移行
+
+Docker for Windowsのサービスは**停止**しておくこと
+
+- imageのエクスポート
+
+  ```bat
+  rem Docker for Windows 側でイメージをエクスポート
+  docker save my_mysql > my_mysql.tar
+  docker save postgres:12.1 > postgres12_1.tar
+  docker save dpage/pgadmin4 > dpage_pgadmin4.tar
+  docker save my_sqlserver > my_sqlserver.tar
+  docker save mongo > mongo.tar
+  docker save mongo-express > mongo-express.tar
+  docker save mongo_replica_set_ssh-server > mongo_replica_set_ssh-server.tar
+  ```
+
+- imageのインポート
+
+  ```bash
+  # wsl2側でイメージをインポート
+  docker load < my_mysql.tar
+  docker load < postgres12_1.tar
+  docker load < dpage_pgadmin4.tar
+  docker load < my_sqlserver.tar
+  docker load < mongo.tar
+  docker load < mongo-express.tar
+  docker load < mongo_replica_set_ssh-server.tar
+  ```
+
+- コンテナの起動/停止
+
+  ```bash
+  # mysqlのパス
+  cd /mnt/c/git/sample/docker-mysql/mysql
+  # 初回だけボリューム作成をすること
+  docker volume create --name=mysql-data
+
+  #postgresqlのパス
+  cd /mnt/c/Users/310102/Desktop/MyDev/90_Sample/sample_angular/サーバー構成/ドライブ_C/AngularTool/docker/postgres
+
+  # sqlserverのパス
+  cd /mnt/c/git/sample/docker-mssql/mssql
+  # 初回だけボリューム作成をすること
+  docker volume create --name=mssql-data
+
+  # mongodbのパス(readme.mdに従い、レプリカセットの設定を行うこと)
+  cd /mnt/c/Users/310102/Desktop/MyDev/90_Sample/sample_angular/サーバー構成/ドライブ_C/AngularTool/docker/mongo_replica_set
+
+  # 起動
+  docker-compose up
+
+  # 停止
+  docker-compose down
+  ```
+
+- ダンプの復元(postgresql)
+
+  ```bash
+  # postgresqlの復元
+  PG_FILE=postgres_20220109_070001.dmp
+  docker exec -i postgresql psql postgres < $PG_FILE
+
+  # 確認
+  http://localhost:15432/login
+  root/root
+  ```
+
+- ダンプの復元(SQL Server)
+
+  ```bash
+  MSSQL_FILE=ACT_20220109_070002.bak
+
+  # コンテナ内にダンプファイルをコピーし、SQL Server Management Studioで復元する
+  docker cp ./$MSSQL_FILE sqlserver:/tmp/$MSSQL_FILE
+
+  # コンテナ内のダンプを削除
+  docker exec -it sqlserver rm /tmp/$MSSQL_FILE
+
+  ```
+
+- ダンプの復元(MySQL)
+
+  ```bash
+  # ダンプファイルの１行目にWarningログが出力されている場合は削除する
+  MYSQL_FILE=sample_20220109_070001.dmp
+  docker exec -i mysql mysql -u root -ppassw0rd sample < $MYSQL_FILE
+
+  # 確認
+  mysql -u root -ppassw0rd sample
+  > show databases;
+  ```
+
+- ダンプの復元(mongodb)
+
+  ```bash
+  # mongodbの復元
+  # Primaryへの復元を行う。http://localhost:8081/でPrimaryのコンテナを確認可能。
+  BK_OUT=mongo_mongors001_20220109_070001
+  PRIMARY_HOST=mongors001
+  PORT=27017
+
+  # コンテナにダンプをコピー、解凍
+  docker cp ./$BK_OUT.tar.gz $PRIMARY_HOST:$BK_OUT.tar.gz
+  docker exec -it $PRIMARY_HOST tar -zxvf $BK_OUT.tar.gz
+
+  # 復元
+  docker exec -it $PRIMARY_HOST mongorestore --host=localhost --port=$PORT --username=root --password=passw0rd --authenticationDatabase=admin $BK_OUT
+
+  # コンテナ内のダンプを削除
+  docker exec -it $PRIMARY_HOST rm $BK_OUT.tar.gz
+  docker exec -it $PRIMARY_HOST rm -rf $BK_OUT
+
+  ```

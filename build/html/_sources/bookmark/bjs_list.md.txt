@@ -1,0 +1,71 @@
+# 物流情報リスト
+
+## とらなびPRサイト管理
+
+<https://www.tranavi.net/wp-login.php>  
+<https://ver.tranavi.net/wp-login.php>  
+<https://ver2.tranavi.net/wp-login.php>  
+<https://dev.tranavi.net/wp-login.php>  
+<http://ver-pr.tranavi.net:8080/wp-login.php>
+
+## とらなび
+
+<https://www.tranavi.net/>  
+<https://ver.tranavi.net/>  
+<https://ver2.tranavi.net/>  
+<https://dev.tranavi.net/>  
+<http://ver-pr.tranavi.net:8080/>
+
+## とらなび裏口ログイン
+
+<https://www.tranavi.net/Webreceipt/login_sec/AdministratorInput.aspx>  
+<https://ver.tranavi.net/Webreceipt/login_sec/AdministratorInput.aspx>  
+<https://ver2.tranavi.net/Webreceipt/login_sec/AdministratorInput.aspx>  
+<https://dev.tranavi.net/Webreceipt/login_sec/AdministratorInput.aspx>
+
+## Web誘導
+
+<https://www.tranavi.net/mobile/Login/Login?guid=ON>  
+<https://ver.tranavi.net/mobile/Login/Login?guid=ON>  
+<https://ver2.tranavi.net/mobile/Login/Login?guid=ON>  
+<https://dev.tranavi.net/mobile/Login/Login?guid=ON>
+
+## Web誘導社員用
+
+<https://www.tranavi.net/Mobile/AdminLogin/Post?guid=ON>  
+<https://ver.tranavi.net/Mobile/AdminLogin/Post?guid=ON>  
+<https://ver2.tranavi.net/Mobile/AdminLogin/Post?guid=ON>  
+<https://dev.tranavi.net/Mobile/AdminLogin/Post?guid=ON>
+
+## みんパス管理者画面
+
+<https://www.tranavi.net/Webreceipt/login_sec/AdminLogin.aspx>  
+<https://ver.tranavi.net/Webreceipt/login_sec/AdminLogin.aspx>  
+<https://ver2.tranavi.net/Webreceipt/login_sec/AdminLogin.aspx>  
+<https://dev.tranavi.net/Webreceipt/login_sec/AdminLogin.aspx>
+
+## BE-VO
+
+<http://bjs-board-sv/>  
+<http://bjs-board-d-sv/>
+
+## Compass インストールURL(D)
+
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_D_check/PublishCompass_install2.2.html>  
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_D/PublishCompass_install2.2.html>
+
+## Compass インストールURL(V)
+
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_V/PublishCompass_install2.2.html>  
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_V_check/PublishCompass_install2.2.html>
+
+## Compass インストールURL(V2)
+
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_V2_check/PublishCompass_install2.2.html>  
+<http://compass-upd.trancom.co.jp/Compass_drg_install_ITS_V2/PublishCompass_install2.2.html>
+
+## Compass インストールURL
+
+<http://compass-upd.trancom.co.jp/Compass_drg_install_check/PublishCompass_install2.2.html>  
+<http://compass-upd.trancom.co.jp/Compass_drg_install/PublishCompass_install2.2.html>  
+<http://compass-upd.trancom.co.jp/Compass_install/PublishCompass2.0_install.html>

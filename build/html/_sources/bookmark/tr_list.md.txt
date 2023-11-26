@@ -1,0 +1,17 @@
+# トランコム共通
+
+## Mantis
+
+<http://mantis.trancom-domain.local/mantis/my_view_page.php>
+
+## hinemos
+
+<http://172.22.0.4/>
+
+## jp1
+
+<http://jp1-ast-sv1.trancom-domain.local:31080/jp1itdm/jp1itdm.jsp>
+
+## Gsuite
+
+<https://sites.google.com/a/trancom.co.jp/portal/>

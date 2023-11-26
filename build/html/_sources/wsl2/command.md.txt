@@ -1,0 +1,48 @@
+# コマンド一覧
+
+## powershell で実行するコマンド
+
+```powershell
+# バージョン確認
+wsl -l -v
+
+# エクスポート
+wsl --export Ubuntu-20.04 %userprofile%\Desktop\ubuntu2004.tar
+
+# インポート(デフォルトユーザーはrootになる)
+wsl --import Ubuntu-20.04-dev1 %userprofile%\AppData\Local\Ubuntu-20.04-dev1 %userprofile%\Desktop\ubuntu2004.tar
+
+# 既定のwsl設定
+wslconfig /setdefault Ubuntu-20.04-dev1
+
+# wslのバージョン変更
+wsl --set-version Ubuntu-20.04-dev1 2
+
+# 停止
+wsl -t Ubuntu-20.04
+
+# wslの削除
+wsl --unregister Ubuntu-20.04-dev1
+
+# ユーザーを指定してwslを起動
+wsl -d [distro] -u [username]
+
+```
+
+## デフォルトユーザー変更方法
+
+```text
+デフォルトユーザーを変更（レジストリエディタで以下のパスを直接修正）
+HKEY_CURRENT_USER\Software \ Microsoft \ Windows \ CurrentVersion \Lxss{MY-UUID}
+```
+
+## wsl2で実行するコマンド
+
+```bash
+# ユーザーidの確認方法(rootだと0、wsl時に作成したユーザーは1000)
+id -u
+> 1000
+
+# グループidの確認方法
+id -g
+```

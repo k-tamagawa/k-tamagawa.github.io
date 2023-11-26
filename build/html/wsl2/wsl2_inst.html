@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>9.1. Windows Subsystem for Linux 2（WSL2）の有効化 &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="9.2. コマンド一覧" href="command.html" />
+    <link rel="prev" title="9. Windows Subsystem for Linux 2" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sample/index.html">2. サンプル集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">8. Docker</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">9. Windows Subsystem for Linux 2</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.1. Windows Subsystem for Linux 2（WSL2）の有効化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command.html">9.2. コマンド一覧</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kintai/index.html">15. 勤怠</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">9. </span>Windows Subsystem for Linux 2</a> &raquo;</li>
+        
+      <li><span class="section-number">9.1. </span>Windows Subsystem for Linux 2（WSL2）の有効化</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/wsl2/wsl2_inst.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="windows-subsystem-for-linux-2-wsl2">
+<h1><span class="section-number">9.1. </span>Windows Subsystem for Linux 2（WSL2）の有効化<a class="headerlink" href="#windows-subsystem-for-linux-2-wsl2" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>「Linux 用 Windows サブシステム」を有効にする</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c">#Windows の機能の有効化または無効化 の画面でチェックをいれるのと同じコマンド</span>
+<span class="n">dism</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">online</span> <span class="p">/</span><span class="nb">enable-feature</span> <span class="p">/</span><span class="n">featurename</span><span class="p">:</span><span class="n">Microsoft-Windows-Subsystem-Linux</span> <span class="p">/</span><span class="n">all</span> <span class="p">/</span><span class="n">norestart</span>
+</pre></div>
+</div>
+<p>「仮想マシン プラットフォーム」を有効にする</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c">#Windows の機能の有効化または無効化 の画面でチェックをいれるのと同じコマンド</span>
+<span class="n">dism</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">online</span> <span class="p">/</span><span class="nb">enable-feature</span> <span class="p">/</span><span class="n">featurename</span><span class="p">:</span><span class="n">VirtualMachinePlatform</span> <span class="p">/</span><span class="n">all</span> <span class="p">/</span><span class="n">norestart</span>
+</pre></div>
+</div>
+<p>OSの再起動</p>
+<p>WSL2 にアップデートする</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>インストーラ
+wsl_update_x64.msi
+
+ダウンロードサイト
+https://docs.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+</pre></div>
+</div>
+<p>WSL2の起動確認を行う</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-set-default-version</span> <span class="n">2</span>
+<span class="c"># &gt; WSL 2 との主な違いについては、https://aka.ms/wsl2 を参照してください</span>
+<span class="c"># &gt; この操作を正しく終了しました。</span>
+</pre></div>
+</div>
+<p>1ubuntu 20.04 をインストール完了後、そのまま起動する</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>インストーラー
+Ubuntu_2004.2020.424.0_x64.appx
+
+ダウンロードサイト
+https://docs.microsoft.com/ja-jp/windows/wsl/install-manual
+</pre></div>
+</div>
+<p>Ubuntuコンソールでエラーが表示された場合</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># エラー内容　パターン１</span>
+Installing, this may take a few minutes...
+WslRegisterDistribution failed with error: 0x8000000d
+Error: 0x8000000d ????????????????
+
+<span class="c1"># エラー内容　パターン２</span>
+実行しようとした操作は、参照したオブジェクトの種類ではサポートされていません。
+Press any key to <span class="k">continue</span>...
+</pre></div>
+</div>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="c1">rem 上記エラー時はNoLsp.exeをダウンロードしコマンドプロンプトで以下を実行する。</span>
+NoLsp.exe c:\windows\system32\wsl.exe
+<span class="p">&gt;</span> Success!
+
+<span class="c1">rem ダウンロードサイト（GitHubのコメント欄にリンクあり）</span>
+<span class="c1">rem http://www.proxifier.com/tmp/Test20200228/NoLsp.exe</span>
+</pre></div>
+</div>
+<p>ubuntu 20.04 を起動し、ユーザーとパスワードを設定後、コンソールを閉じる</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 設定せずに画面を閉じたらrootがデフォルトとなった</span>
+username: ubuntu
+password: passw0rd
+</pre></div>
+</div>
+<p>インストールしたubuntuをWSL2のデフォルトにする</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-set-version</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span> <span class="n">2</span>
+<span class="c"># &gt; 変換中です。この処理には数分かかることがあります...</span>
+<span class="c"># &gt; WSL 2 との主な違いについては、https://aka.ms/wsl2 を参照してください</span>
+<span class="c"># &gt; ディストリビューションは既に、要求されているバージョンです。</span>
+
+<span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>ubuntuがwsl2で起動していることを確認する</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
+<span class="p">&gt;</span> <span class="n">NAME</span>            <span class="n">STATE</span>           <span class="n">VERSION</span>
+<span class="p">&gt;</span> <span class="p">*</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span>    <span class="n">Stopped</span>         <span class="n">2</span>
+
+<span class="c"># StoppedとなっていたらスタートメニューからUbuntuを起動してください。</span>
+<span class="c"># 起動後はコンソールを閉じてもかまいません。</span>
+</pre></div>
+</div>
+<p>ubuntuのコマンド確認</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># コマンドプロンプトで以下を実行すると、linuxのコンソールにかわります</span>
+wsl
+
+<span class="c1">#なんでもいいのでコマンド実行</span>
+ls
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="command.html" class="btn btn-neutral float-right" title="9.2. コマンド一覧" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="9. Windows Subsystem for Linux 2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+# pacmanコマンド
+
+|コマンド||
+|---|---|
+|pacman -Sy|サーバーから最新のパッケージデータベースをダウンロード|
+|pacman -Su|インストールしたパッケージのアップグレード|
+|pacman -Syu|パッケージのアップグレード  $ pacman -Sy && pacman -Su  を一括で行う|
+|pacman -Sl|インストール済一覧　　※[installed]となっているものがインストール済|
+|pacman -R [パッケージ名]|パッケージの削除|
+|pacman -Rs [パッケージ名]|依存するパッケージを同時に削除|
+|pacman -Sc|キャッシュをクリーンナップ|
+|pacman -Scc|キャッシュを削除|
+|パッケージの検索|<https://packages.msys2.org/search>|
+|パッケージのインストール|pacman -S mingw-w64-ucrt-x86_64-gcc|
+|パッケージファイルのインストール|pacman -U mingw-w64-x86_64-openssl-3.0.7-3-any.pkg.tar.zst|

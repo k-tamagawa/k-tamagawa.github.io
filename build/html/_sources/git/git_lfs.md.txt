@@ -1,0 +1,133 @@
+# Git LFS
+
+## 利用方法
+
+1. Git LFSがインストールされているか確認する
+
+    ```bat
+    rem lfsのバージョン確認
+    > git lfs version
+    git-lfs/2.x.x (GitHub; windows amd64; go x.x.x; git xxxxxxxx)
+    ```
+
+1. GitBucketでリポジトリを作成後、クローンする
+
+    ```bash
+    #  以下の例でコマンドを記載
+    #   サーバー名:its-0102-test3
+    #   リポジトリ作成ユーザー:root
+    #   リポジトリ名：test_lfs.git
+
+    # Git Bash Hereでターミナルを開く
+
+    # クローンする
+    git clone https://its-0102-test3/gitbucket/git/root/test_lfs.git
+
+    # クローンしたフォルダに移動する
+    cd test_lfs 
+
+    # （任意）README.mdをコミット＆プッシュ
+    touch README.md
+    git add README.md
+    git commit -m "first commit"
+    git push
+    ```
+
+1. リポジトリに対しlfsを利用可能にする
+
+    ```bash
+    #lfsを利用可能にする
+    $ git lfs install
+    Updated git hooks.
+    Git LFS initialized.
+
+    #lfs管理とするファイル拡張子を設定する
+    $ git lfs track "*.png"
+    Tracking "*.png"
+
+    $ git lfs track "*.exe"
+    Tracking "*.exe"
+
+    $ git lfs track "*.msi"
+    Tracking "*.msi"
+    
+    $ git lfs track "*.zip"
+    Tracking "*.zip"
+
+    # ファイルのパターンを削除
+    $ git lfs untrack "*.png"
+    Untracking "*.png"
+
+    #.gitattributesに定義が追加されているので確認する
+    $ cat .gitattributes
+    *.exe filter=lfs diff=lfs merge=lfs -text
+    *.msi filter=lfs diff=lfs merge=lfs -text
+    *.zip filter=lfs diff=lfs merge=lfs -text
+    ```
+
+## その他
+
+- クローン時点でダウンロードしたくない場合
+
+  ```bash
+  # クローン
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://its-0102-test3/gitbucket/git/root/test_lfs.git
+
+  # サーバーからファイルをダウンロードする
+  git lfs pull
+
+  # 個別にダウンロード
+  git lfs pull -I hoge.pdf
+
+  ```
+
+- LFSで管理されているファイル一覧
+
+    ```bash
+    git lfs ls-files
+    ```
+
+- 最近利用されていないLFSファイルのローカルコピーを削除
+
+    ```bash
+
+    # 最近 lfs.fetchrecentrefsdaysの値(デフォルト7)
+    # オフセット lfs.pruneoffsetdaysの値（デフォルト3）
+    # これで確認可能
+    git lfs env
+
+    # 値の変更
+    git config lfs.fetchrecentrefsdays 7
+    git config lfs.pruneoffsetdays 3
+    
+    # 最近＋オフセットの日数を経過したファイルが削除対象
+    git lfs prune
+
+    ```
+
+- LFSファイルの保存場所
+
+    ```bash
+  # オブジェクトの送信・取得する時のエンドポイント
+  $ git lfs env
+  Endpoint=https://xxx/info/lfs
+    ```
+
+- LFSのロック  
+    **`GitBucketではおそらくロック未対応。以下を参照。`**  
+    [Bitbucket での Git LFS の現在の制限事項](https://support.atlassian.com/ja/bitbucket-cloud/docs/current-limitations-for-git-lfs-with-bitbucket/)  
+
+    ```bash
+    # ロック可能なファイルの種類を設定
+    git lfs track "*.png" --lockable
+
+    # ファイルのロック
+    git lfs lock example.png
+
+    # ロック中のファイル一覧を取得
+    git lfs locks
+
+    # ファイルのロックを解除する
+    git lfs unlock example.png
+
+    ```

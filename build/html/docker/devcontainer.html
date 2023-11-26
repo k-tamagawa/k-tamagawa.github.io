@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>8.6. devcontainer環境構築 &mdash; Sphinx 1.0.5 ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/my_theme.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="../_static/js/register.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="9. Windows Subsystem for Linux 2" href="../wsl2/index.html" />
+    <link rel="prev" title="8.5. Composeのネットワーク" href="compose_network.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Sphinx
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">目次:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sphinx.html">1. Sphinxの環境構築～サイト更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sample/index.html">2. サンプル集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mssql/index.html">3. 保守用：SQL Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mysql/index.html">4. 保守用：MySQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../redmine/index.html">5. 構成管理SV：Redmine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git/index.html">6. Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../svn/index.html">7. SVN</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">8. Docker</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="command.html">8.1. コマンド一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_inst.html">8.2. Dockerのインストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_info.html">8.3. Docker情報</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_wsl2.html">8.4. Docker for Windowsからwsl2への移行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compose_network.html">8.5. Composeのネットワーク</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.6. devcontainer環境構築</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">8.6.1. 事前準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dockerwsl">8.6.2. dockerをwslにインストールする</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">8.6.3. プロキシ設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-compose">8.6.4. サンプル Docker Compose 環境構築</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dockerfile">8.6.5. サンプル Dockerfile 環境構築</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#microsoft">8.6.6. サンプル microsoftのリポジトリ 環境構築</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wsl2/index.html">9. Windows Subsystem for Linux 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../msys2/index.html">10. MSYS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_command/index.html">11. その他コマンド</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other_config/index.html">12. その他設定</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bookmark/index.html">13. ブックマーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shortcut/index.html">14. ショートカット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kintai/index.html">15. 勤怠</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Sphinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html"><span class="section-number">8. </span>Docker</a> &raquo;</li>
+        
+      <li><span class="section-number">8.6. </span>devcontainer環境構築</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/docker/devcontainer.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="devcontainer">
+<h1><span class="section-number">8.6. </span>devcontainer環境構築<a class="headerlink" href="#devcontainer" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id1">
+<h2><span class="section-number">8.6.1. </span>事前準備<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>事前にUbuntu20.04、Windows Terminalをインストールしておくこと。</p></li>
+<li><p>wslを開発用としてコピーする。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ベースの環境をエクスポート</span>
+<span class="n">wsl</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-export</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span> <span class="nv">$env:userprofile</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">ubuntu2004</span><span class="p">.</span><span class="n">tar</span>
+
+<span class="c"># 名前を変えてインポート</span>
+<span class="n">wsl</span> <span class="p">-</span><span class="n">-import</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04-dev1</span> <span class="nv">$env:userprofile</span><span class="p">\</span><span class="n">AppData</span><span class="p">\</span><span class="n">Local</span><span class="p">\</span><span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04-dev1</span> <span class="nv">$env:userprofile</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">ubuntu2004</span><span class="p">.</span><span class="n">tar</span>
+
+<span class="c"># バージョンを2に変更する</span>
+<span class="n">wsl</span> <span class="p">-</span><span class="n">-set-version</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04-dev1</span> <span class="n">2</span>
+</pre></div>
+</div>
+</li>
+<li><p>Windows Terminalを起動し、コピーしたwslを起動できることを確認する</p></li>
+</ul>
+</div>
+<div class="section" id="dockerwsl">
+<h2><span class="section-number">8.6.2. </span>dockerをwslにインストールする<a class="headerlink" href="#dockerwsl" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p><a class="reference internal" href="docker_inst.html"><span class="doc std std-doc">Dockerのインストール</span></a></p></li>
+<li><p>docker serviceを起動する</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>service docker start
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">8.6.3. </span>プロキシ設定<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>devcontainer.jsonへのプロキシ設定。 <strong>おそらく不要。</strong> argsは<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code>の引数で利用される。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hoge_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;build&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;dockerfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dockerfile&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;..&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;http_proxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;https_proxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;HTTP_PROXY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;HTTPS_PROXY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://msig.trancom-domain.local:80&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>~/.docker/config.jsonへのプロキシ設定。<br />
+<a class="reference external" href="https://compass-upd.trancom.co.jp/sphinx/html/docker/docker_inst.html#id3">config作・・・ 参照</a></p></li>
+<li><p>デーモンへのプロキシ設定。<br />
+<a class="reference external" href="https://compass-upd.trancom.co.jp/sphinx/html/docker/docker_inst.html#id3">デーモンへの設定・・・ 参照</a></p></li>
+</ul>
+</div>
+<div class="section" id="docker-compose">
+<h2><span class="section-number">8.6.4. </span>サンプル Docker Compose 環境構築<a class="headerlink" href="#docker-compose" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>wslターミナルを起動し、sample_pythonフォルダを作成する</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /home
+mkdir sample_python
+</pre></div>
+</div>
+</li>
+<li><p>sample_pythonフォルダに移動し、VSCodeを開く</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> sample_python
+code .
+</pre></div>
+</div>
+</li>
+<li><p>以下の構成で必要なファイルやフォルダをVSCodeで作成する</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sample_python
+│ docker-compose.yml
+└─.devcontainer
+  │ devcontainer.json
+  └─
+</pre></div>
+</div>
+</li>
+<li><p>docker-compose.yml</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3&#39;</span><span class="w"></span>
+<span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">sample_python</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python:latest</span><span class="w"></span>
+<span class="w">    </span><span class="nt">tty</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/home</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>devcontainer.json</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sample_python_container&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;dockerComposeFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="s2">&quot;../docker-compose.yml&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sample_python&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;workspaceFolder&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>VSCodeの左下の緑アイコンをクリック後、<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Foloer</span> <span class="pre">In</span> <span class="pre">WSL</span></code>を選択</p></li>
+<li><p>sample_pythonフォルダを選択</p></li>
+<li><p>右下の通知にある<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">container</span></code>をクリック</p></li>
+<li><p>イメージがビルドされる</p></li>
+<li><p>VSCodeのターミナルから<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">--version</span></code>と入力し、起動確認</p></li>
+</ul>
+</div>
+<div class="section" id="dockerfile">
+<h2><span class="section-number">8.6.5. </span>サンプル Dockerfile 環境構築<a class="headerlink" href="#dockerfile" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>wslターミナルを起動し、sample_pythonフォルダを作成する</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /home
+mkdir sample_node
+</pre></div>
+</div>
+</li>
+<li><p>sample_nodeフォルダに移動し、VSCodeを開く</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> sample_node
+code .
+</pre></div>
+</div>
+</li>
+<li><p>以下の構成で必要なファイルやフォルダをVSCodeで作成する</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sample_node
+└─.devcontainer
+  │ devcontainer.json
+  │ Dockerfile
+  └─
+</pre></div>
+</div>
+</li>
+<li><p>devcontainer.json</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Node.js&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;build&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;dockerfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dockerfile&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;runArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="s2">&quot;--hostname=dev_node&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;customizations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vscode&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;extensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;dbaeumer.vscode-eslint&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;portsAttributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;3000&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello Remote World&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;onAutoForward&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;notify&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;postCreateCommand&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;yarn install&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Dockerfile</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>FROM node:16-bullseye
+
+ENV <span class="nv">http_proxy</span><span class="o">=</span><span class="s2">&quot;http://172.16.1.105:80&quot;</span>
+ENV <span class="nv">https_proxy</span><span class="o">=</span><span class="s2">&quot;http://172.16.1.105:80&quot;</span>
+
+RUN apt-get update
+<span class="c1"># -yをつけ忘れないこと</span>
+RUN apt-get install -y iputils-ping
+RUN apt-get install -y net-tools
+</pre></div>
+</div>
+</li>
+<li><p>VSCodeの左下の緑アイコンをクリック後、<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Foloer</span> <span class="pre">In</span> <span class="pre">WSL</span></code>を選択</p></li>
+<li><p>sample_nodeフォルダを選択</p></li>
+<li><p>右下の通知にある<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">container</span></code>をクリック</p></li>
+<li><p>イメージがビルドされる</p></li>
+<li><p>VSCodeのターミナルから<code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">--version</span></code>と入力し、起動確認</p></li>
+</ul>
+</div>
+<div class="section" id="microsoft">
+<h2><span class="section-number">8.6.6. </span>サンプル microsoftのリポジトリ 環境構築<a class="headerlink" href="#microsoft" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p>wslターミナルを起動し、vscode-remote-try-nodeをcloneする</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># node以外にもいろいろある</span>
+<span class="nb">cd</span> /home
+git clone https://github.com/microsoft/vscode-remote-try-node.git
+
+<span class="c1"># 書き込みエラー対応（不要かも）</span>
+chmod <span class="m">777</span> vscode-remote-try-node
+</pre></div>
+</div>
+</li>
+<li><p>cloneしたフォルダに移動し、VSCodeを起動する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 初めて起動する場合はVSCode ServerのUpdateなどが実行されるため</span>
+<span class="c1"># Proxy環境化の場合は環境変数を事前に設定しておくこと</span>
+<span class="nb">export</span> <span class="nv">HTTP_PROXY</span><span class="o">=</span>msig.trancom-domain.local
+<span class="nb">export</span> <span class="nv">HTTPS_PROXY</span><span class="o">=</span>msig.trancom-domain.local
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>msig.trancom-domain.local
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>msig.trancom-domain.local
+
+<span class="c1"># VSCodeの起動</span>
+<span class="nb">cd</span> /home/vscode-remote-try-node
+code .
+</pre></div>
+</div>
+</li>
+<li><p>Dockerfileを必要に応じ、修正する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ARG <span class="nv">VARIANT</span><span class="o">=</span><span class="m">16</span>-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-<span class="si">${</span><span class="nv">VARIANT</span><span class="si">}</span>
+<span class="c1"># devcontainer.jsonのyarn install でエラーになったのでプロキシ追加</span>
+ENV <span class="nv">http_proxy</span><span class="o">=</span><span class="s2">&quot;http://172.16.1.105:80&quot;</span>
+ENV <span class="nv">https_proxy</span><span class="o">=</span><span class="s2">&quot;http://172.16.1.105:80&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>devcontainer.jsonファイルを必要に応じ、修正する。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// wsl2側がrootユーザーの場合、書き込みできないのでコメントアウトし、rootユーザーとする</span><span class="w"></span>
+<span class="c1">// &quot;remoteUser&quot;: &quot;node&quot;</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>右下の通知にある<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">container</span></code>をクリック</p></li>
+<li><p>イメージがビルドされる</p></li>
+<li><p>VSCodeのターミナルから<code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">--version</span></code>と入力し、起動確認</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../wsl2/index.html" class="btn btn-neutral float-right" title="9. Windows Subsystem for Linux 2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="compose_network.html" class="btn btn-neutral float-left" title="8.5. Composeのネットワーク" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, k_tamagawa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

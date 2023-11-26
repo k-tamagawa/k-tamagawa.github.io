@@ -1,0 +1,169 @@
+# マークダウン
+
+## テーブル 標準
+
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD  |
+|  TD  |  TD  |
+
+```md
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD  |
+|  TD  |  TD  |
+```
+
+## テーブル セル配置
+
+| TH 左寄せ | TH 中央寄せ | TH 右寄せ |
+| :--- | :---: | ---: |
+| TD | TD | TD |
+| TD | TD | TD |
+
+```md
+| TH 左寄せ | TH 中央寄せ | TH 右寄せ |
+| :--- | :---: | ---: |
+| TD | TD | TD |
+| TD | TD | TD |
+```
+
+## テーブル セル内改行
+
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD1<br>TD2  |
+|  TD1<br>TD2  |  TD  |
+
+```md
+|  TH  |  TH  |
+| ---- | ---- |
+|  TD  |  TD1<br>TD2  |
+|  TD1<br>TD2  |  TD  |
+```
+
+## テーブル セル内装飾
+
+|`code`    |*italic*                  |
+|----------|--------------------------|
+|**bold**  |***bold italic***         |
+|$ \omega $|[Qiita](http://qiita.com)||
+
+```text
+|`code`    |*italic*                  |
+|----------|--------------------------|
+|**bold**  |***bold italic***         |
+|$ \omega $|[Qiita](http://qiita.com)||
+```
+
+---
+
+## 引用
+
+> Note: VScodeだと注釈っぽく見える
+
+```text
+> Note: VScodeだと注釈っぽく見える
+```
+
+## 太文字
+
+**サンプル**
+
+```text
+**サンプル**
+```
+
+---
+
+## コードブロック
+
+**ハイライトなし**
+
+```text
+# 始めてのプログラム
+print('Hello World')
+```
+
+````text
+```text
+# 始めてのプログラム
+print('Hello World')
+```
+````
+
+---
+
+**ハイライトあり**
+
+```py
+# 始めてのプログラム
+print('Hello World')
+```
+
+````text
+```py
+# 始めてのプログラム
+print('Hello World')
+```
+````
+
+---
+
+## リスト（箇条書き）
+
+* サンプル
+  * 箇条書き1
+  * 箇条書き2
+  * 箇条書き3
+
+```text
+* サンプル
+  * 箇条書き1
+  * 箇条書き2
+  * 箇条書き3
+```
+
+---
+
+## リスト（番号付き）
+
+1. サンプル
+   1. 番号付き1
+   1. 番号付き2
+   1. 番号付き3
+
+```text
+1. サンプル
+   1. 番号付き1
+   1. 番号付き2
+   1. 番号付き3
+```
+
+---
+
+## リンク（外部）
+
+[Markdown書き方メモ](https://qiita.com/Minalinsky_1911/items/b684cfabe0f2fde0c67b)
+
+```text
+[Markdown書き方メモ](https://qiita.com/Minalinsky_1911/items/b684cfabe0f2fde0c67b)
+```
+
+## リンク（内部）
+
+[reStructuredText](./reST.rst)
+
+```text
+[reStructuredText](./reST.rst)
+```
+
+---
+
+## 画像の挿入
+
+![メモ](../_images/sample/memo.png)
+
+```text
+![メモ](../_images/sample/memo.png)
+```
